@@ -59,8 +59,12 @@ $(function() {
                     $arrow.fadeOut();
                     
                     var i = 0;
+                    var inputss='';
+                    var textss=query;
                     typeInterval = setInterval(function () {
-                        $kw.val(query.substr(0, i));
+                        inputss+=textss.substr(0,1);
+                        $kw.val(inputss);
+                        textss=textss.slice(1);
                         if (++i > query.length) {
                             clearInterval(typeInterval);
                             $tips.html('3、点击下“百度一下”按钮');
@@ -77,7 +81,7 @@ $(function() {
                                 }, 1000);
                             });
                         }
-                    }, 200);
+                    }, 80);
                 }, 500);
             });
         }, 1000);
