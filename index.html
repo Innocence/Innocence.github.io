@@ -1,62 +1,1109 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="zh">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="Cache-Control" content="no-transform">
-    <meta http-equiv="Cache-Control" content="no-siteapp">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <title>让我帮你百度一下 | Let Me Baidu That For You</title>
-    
-    <link rel="stylesheet" href="stylesheets/style.css" />
-    
-    <script src="javascripts/jquery.min.js"></script>
-    <script src="javascripts/base64.min.js"></script>
-    <script src="javascripts/clipboard.min.js"></script>
-    <script src="javascripts/script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>辅助工具</title>
+    <link rel="icon" type="image/png"
+        href="data:image/png;base64,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">
+    <style>
+        body {
+            font-family: Segoe UI, Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-width: 1850px;
+            margin: 0;
+            padding: 0 20px 20px 20px;
+            color: #333;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink-caret {
+
+            from,
+            to {
+                border-color: transparent;
+            }
+
+            50% {
+                border-color: #0078D4;
+            }
+        }
+
+        @keyframes colorChange {
+            0% {
+                color: #0078D4;
+            }
+
+            25% {
+                color: #1E1E1E;
+            }
+
+            50% {
+                color: #FF8C00;
+            }
+
+            75% {
+                color: #E81123;
+            }
+
+            100% {
+                color: #0078D4;
+            }
+        }
+
+        textarea {
+			margin-top:15px;
+            width: 100%;
+            height: 120px;
+            box-sizing: border-box;
+            border-radius: 8px;
+            border: none;
+            padding: 10px;
+            font-family: "Microsoft YaHei", "微软雅黑";
+            font-size: 16px;
+            resize: vertical;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #333;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+            overflow: auto;
+        }
+
+        textarea:focus {
+            border-color: #007bff;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+            outline: none;
+        }
+
+        textarea::placeholder {
+            color: #BBB;
+            opacity: 1;
+            /* Firefox */
+            transition: color 0.3s ease;
+        }
+
+        textarea:focus::placeholder {
+            color: #666;
+        }
+
+        textarea#inputData::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        textarea#inputData::-webkit-scrollbar-thumb {
+            background-color: #0078D4;
+            border-radius: 10px;
+        }
+
+        textarea#inputData::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+
+
+        * {
+            scrollbar-width: inherit;
+            scrollbar-color: #0078D4 #f4f4f4;
+        }
+
+        /* Apply light flow effect to processButton */
+        button.processbutton {
+            width: 12.2%;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            background-color: #0078D4;
+            /* Base color for the button */
+            color: #FFFFFF;
+            font-size: 25px;
+            font-family: "Microsoft YaHei", "微软雅黑";
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.2s, transform 0.2s;
+            margin: 5px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        button.processbutton::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+            opacity: 0;
+            transition: opacity 0.5s;
+            transform: rotate(-30deg);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        button.processbutton:hover::before {
+            opacity: 1;
+            animation: light-flow 1.5s infinite linear;
+        }
+
+        button.processbutton:hover {
+            background-color: #005A9E;
+            /* Darker shade for hover effect */
+        }
+
+        @keyframes light-flow {
+            0% {
+                transform: translateX(-100%) rotate(-30deg);
+            }
+
+            100% {
+                transform: translateX(100%) rotate(-30deg);
+            }
+        }
+
+        /* Ensure text is visible over the gradient */
+        button.processbutton span {
+            position: relative;
+            z-index: 2;
+        }
+
+
+        /* Apply neon effect to buttons inside resultItem */
+        button.neon-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            background-color: #0078D4;
+            /* Same as processButton */
+            color: #FFFFFF;
+            font-family: "Microsoft YaHei", "微软雅黑";
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s, text-shadow 0.2s;
+            margin-right: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        button.neon-button:hover {
+            background-color: #005A9E;
+            /* Same as processButton hover */
+            animation: neon 1.5s infinite alternate;
+        }
+
+        @keyframes neon {
+            from {
+                text-shadow: 0 0 5px #00aaff, 0 0 10px #00aaff, 0 0 15px #00aaff, 0 0 20px #00aaff, 0 0 25px #00aaff, 0 0 30px #00aaff, 0 0 35px #00aaff;
+            }
+
+            to {
+                text-shadow: 0 0 10px #0078D4, 0 0 20px #0078D4, 0 0 30px #0078D4, 0 0 40px #0078D4, 0 0 50px #0078D4, 0 0 60px #0078D4, 0 0 70px #0078D4;
+            }
+        }
+
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            background-color: #0078D4;
+            color: #FFFFFF;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+            margin: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background-color: #005A9E;
+        }
+
+        button:active {
+            background-color: #004578;
+            transform: scale(0.98);
+        }
+
+
+        .result {
+            width: 98%;
+            height: 515px;
+            /* 设置固定高度 */
+            overflow-y: auto;
+            /* 启用垂直滚动 */
+            padding: 10px;
+            border-radius: 18px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        /* 自定义滚动条样式 */
+        .result::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .result::-webkit-scrollbar-thumb {
+            background-color: #0078D4;
+            border-radius: 10px;
+        }
+
+        .result::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+
+
+        .result-item {
+            margin: 20px 0;
+            padding: 10px 20px 20px 20px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .result-item p {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #E1E1E1;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: "霞鹜文楷", Arial, "Microsoft YaHei", "微软雅黑";
+            font-size: 20px;
+            color: #3F788F;
+            background-color: #F9F9F9;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-item span {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-family: "霞鹜文楷";
+            font-size: 24px;
+            background: linear-gradient(90deg, #ff6b6b, #f94d6a, #f9c74f, #43aa8b, #4d908e);
+            background-size: 200% auto;
+            /* 控制渐变效果 */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 3s linear infinite;
+            /* 渐变动画 */
+        }
+
+        @keyframes gradient-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .result-item:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .buttons {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .buttons button {
+            margin-right: 10px;
+        }
+
+
+        .status {
+            margin-left: 10px;
+            color: #107C10;
+            font-size: 1.3em;
+            font-weight: 800;
+            font-family: "霞鹜文楷";
+            opacity: 0;
+            /* 初始状态为透明 */
+            transition: opacity 0.5s ease-in-out;
+            /* 渐显效果 */
+        }
+
+
+        .empty-message {
+            font-size: 8em;
+            background-color: #F9F9F9;
+            /*border: 1px solid #E1E1E1;*/
+            border-radius: 8px;
+            padding: 100px 10px 10px 10px;
+            /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+            background: linear-gradient(90deg, #4285F4, #EA4335, #FBBC05, #34A853);
+            /* Google logo colors */
+            animation: slide-in 0.5s ease-out;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes slide-in {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .line-summary {
+            font-size: 2em;
+            background-color: #F9F9F9;
+            border: 1px solid #E1E1E1;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: left;
+            background: linear-gradient(90deg, #4285F4, #EA4335, #FBBC05, #34A853);
+            /* Google logo colors */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .result-item.highlighted {
+            border: 2px solid #E81123;
+            /* Highlight color */
+            box-shadow: 0 0 15px rgba(232, 17, 35, 0.5);
+            /* Optional shadow effect */
+        }
+
+        div#pic img {
+            margin: 10px 45%;
+        }
+
+        strong {
+            /* background-color: #FFFF00; 选择一个高亮颜色 */
+            color: #107C10
+                /* 确保文字颜色可读 */
+        }
+
+
+        #backToTop {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 999;
+        }
+
+        #backToTop::before {
+            content: '';
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            display: inline-block;
+            padding: 10px;
+            transform: rotate(-135deg);
+        }
+
+        #backToTop:hover {
+            background: linear-gradient(135deg, #000DFF 0%, #6B73FF 100%);
+        }
+
+        #backToTop:active {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .pagination {
+            /*display: flex;*/
+            width: 100%;
+            align-items: center;
+            margin-top: 20px;
+            margin-left: 20px;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .pagination input {
+            width: 100px;
+            text-align: center;
+            margin: 0 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 5px;
+        }
+
+        .pagination button {
+            margin: 0 5px;
+            width: 120px;
+            padding: 6px 12px;
+            border: none;
+            background-color: #0078d4;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .pagination button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background-color: #005a9e;
+        }
+
+        /* Container for the pagination controls */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            font-family: Segoe UI, Arial, sans-serif;
+        }
+
+
+
+        /* Add spacing and visual elements to pagination text */
+        .pagination span {
+            margin: 0 5px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* Style for page number links */
+        .pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #007bff;
+            transition: color 0.3s ease;
+        }
+
+        .pagination a:hover {
+            color: #0056b3;
+        }
+
+        .text_style {
+            white-space: pre-wrap;
+        }
+    </style>
 </head>
+
 <body>
-    <section id="search">
-        <div class="search-header">
-            <h2>
-                
-                <img src="images/baidu_logo.png" alt="百度" title="让我帮你百度一下"> 
-              
-            </h2>
-        </div>
-        
-        <form id="search-form">
-            <div class="search-form-group">
-                <div class="search-form-input">
-                    <input type="search" id="kw" maxlength="255" autocomplete="off" required>
-                </div>
-                <button id="search-submit">百度一下</button>
-            </div>
-        </form>
-    </section>
-    
-    <section id="function">
-        <p id="tips">输入一个问题，然后点击百度一下</p>
-        
-        
-        
-        <div id="output">
-            <textarea id="url-output" rows="3" readonly></textarea>
-            <div class="tool-btns">
-                <button data-clipboard-target="#url-output">复制</button>
-                <button id="preview">预览</button>
-            </div>
-        </div>
-    </section>
-    
-    <footer id="footer">
-        <ul class="footer-right">
-            <li>* 本站与百度公司没有任何联系，baidu 以及本站出现的百度公司 Logo 是百度公司的商标</li>
-        </ul>
-    </footer>
-    
-    <div id="arrow"></div>
+    <textarea id="inputData" class="text_style" placeholder="请输入一行或多行订单数据    数据格式为 「店铺 原始单号 物流单号(双地址及是否退款、通知退款非必要)」    不符合对应格式要求的订单数据不会被处理....  
+数据示例：		   
+                     沃尔玛  100200300    123456789              |   数据格式非 「店铺 原始单号 物流单号」 则为不严格符合格式要求        
+
+使用方法：根据所需功能点击相应按钮        ">
+    </textarea>
+    <div id="lineSummary" class="line-summary">已输入 0 行数据，其中 0 行不严格符合格式要求</div>
+    <button id="processButton1" class="processbutton" onclick="processData1()">拆单</button>
+    <button id="processButton2" class="processbutton" onclick="processData2()">双地址</button>
+    <button id="processButton3" class="processbutton" onclick="processData3()">单号是否一致</button>
+    <button id="processButton4" class="processbutton" onclick="processData4()">换单号</button>
+    <button id="processButton5" class="processbutton" onclick="processData5()">是否退款</button>
+    <button id="processButton6" class="processbutton" onclick="processData6()">通知退款</button>
+    <button id="processButton7" class="processbutton" onclick="processData7()">求和</button>
+    <button id="processButton8" class="processbutton" onclick="processData8()">重命名</button>
+    <div id="pagination" class="pagination">
+        &nbsp;&nbsp;<button id="isass" onclick="isAscending = true;processData1()">升序</button>
+        <button id="isnotass" onclick="isAscending = false;processData1()">降序</button> &nbsp;&nbsp;每页 <input
+            type="number" id="itemsPerPage" value="50" min="1" max="9999" onchange="updatePagination()" /> 单，当前第 <span
+            id="currentPageDisplay">1</span>/<span id="totalPagesDisplay">1</span> 页 &nbsp;&nbsp; &nbsp;&nbsp;<button
+            id="firstPage" onclick="goToFirstPage()">首页</button>
+        <button id="prevPage" onclick="goToPreviousPage()">上一页</button>
+        <button id="nextPage" onclick="goToNextPage()">下一页</button>
+        <button id="lastPage" onclick="goToLastPage()">末页</button> &nbsp;&nbsp; <input id="goToPage" value="1" min="1"
+            max="9999" onchange="jumpToPage()" /> 页 <button id="j2p" onclick="jumpToPage()">Go</button> &nbsp;&nbsp;
+        <input id="goToOrder" value="1" min="1" max="9999" onchange="jumpToOrder()" /> 行 <button id="j2o"
+            onclick="jumpToOrder()">Go</button>
+    </div>
+    <div class="result" id="result">
+        <button id="backToTop" class="scroll-to-top-btn"></button>
+    </div>
+
+    <script>
+        var cursoreffects = function (t) { "use strict"; return t.bubbleCursor = function (t) { let e, n, i, o = t && t.element, s = o || document.body, h = window.innerWidth, c = window.innerHeight, l = { x: h / 2, y: h / 2 }, a = [], r = []; const d = window.matchMedia("(prefers-reduced-motion: reduce)"); function u() { if (d.matches) return console.log("This browser has prefers reduced motion turned on, so the cursor did not init"), !1; e = document.createElement("canvas"), n = e.getContext("2d"), e.style.top = "0px", e.style.left = "0px", e.style.pointerEvents = "none", o ? (e.style.position = "absolute", s.appendChild(e), e.width = s.clientWidth, e.height = s.clientHeight) : (e.style.position = "fixed", document.body.appendChild(e), e.width = h, e.height = c), s.addEventListener("mousemove", g), s.addEventListener("touchmove", m, { passive: !0 }), s.addEventListener("touchstart", m, { passive: !0 }), window.addEventListener("resize", A), p() } function A(t) { h = window.innerWidth, c = window.innerHeight, o ? (e.width = s.clientWidth, e.height = s.clientHeight) : (e.width = h, e.height = c) } function m(t) { if (t.touches.length > 0) for (let e = 0; e < t.touches.length; e++)f(t.touches[e].clientX, t.touches[e].clientY, r[Math.floor(Math.random() * r.length)]) } function g(t) { if (o) { const e = s.getBoundingClientRect(); l.x = t.clientX - e.left, l.y = t.clientY - e.top } else l.x = t.clientX, l.y = t.clientY; f(l.x, l.y) } function f(t, e, n) { a.push(new v(t, e, n)) } function p() { !function () { if (0 != a.length) { n.clearRect(0, 0, h, c); for (let t = 0; t < a.length; t++)a[t].update(n); for (let t = a.length - 1; t >= 0; t--)a[t].lifeSpan < 0 && a.splice(t, 1); 0 == a.length && n.clearRect(0, 0, h, c) } }(), i = requestAnimationFrame(p) } function y() { e.remove(), cancelAnimationFrame(i), s.removeEventListener("mousemove", g), s.removeEventListener("touchmove", m), s.removeEventListener("touchstart", m), window.addEventListener("resize", A) } function v(t, e, n) { const i = Math.floor(60 * Math.random() + 60); this.initialLifeSpan = i, this.lifeSpan = i, this.velocity = { x: (Math.random() < .5 ? -1 : 1) * (Math.random() / 10), y: -1 * Math.random() - .4 }, this.position = { x: t, y: e }, this.canv = n, this.baseDimension = 4, this.update = function (t) { this.position.x += this.velocity.x, this.position.y += this.velocity.y, this.velocity.x += 2 * (Math.random() < .5 ? -1 : 1) / 75, this.velocity.y -= Math.random() / 600, this.lifeSpan--; const e = .2 + (this.initialLifeSpan - this.lifeSpan) / this.initialLifeSpan; t.fillStyle = "#e6f1f7", t.strokeStyle = "#3a92c5", t.beginPath(), t.arc(this.position.x - this.baseDimension / 2 * e, this.position.y - this.baseDimension / 2, this.baseDimension * e, 0, 2 * Math.PI), t.stroke(), t.fill(), t.closePath() } } return d.onchange = () => { d.matches ? y() : u() }, u(), { destroy: y } }, t.characterCursor = function (t) { let e = t && t.element, n = e || document.body, i = t?.characters || ["h", "e", "l", "l", "o"]; const o = t?.colors || ["#6622CC", "#A755C2", "#B07C9E", "#B59194", "#D2A1B8"]; let s, h, c, l = t?.cursorOffset || { x: 0, y: 0 }, a = window.innerWidth, r = window.innerHeight, d = { x: a / 2, y: a / 2 }, u = [], A = t?.font || "15px serif", m = t?.characterLifeSpanFunction || function () { return Math.floor(60 * Math.random() + 80) }, g = t?.initialCharacterVelocityFunction || function () { return { x: (Math.random() < .5 ? -1 : 1) * Math.random() * 5, y: (Math.random() < .5 ? -1 : 1) * Math.random() * 5 } }, f = t?.characterVelocityChangeFunctions || { x_func: function (t, e) { return (Math.random() < .5 ? -1 : 1) / 30 }, y_func: function (t, e) { return (Math.random() < .5 ? -1 : 1) / 15 } }, p = t?.characterScalingFunction || function (t, e) { let n = e - t; return Math.max(n / e * 2, 0) }, y = t?.characterNewRotationDegreesFunction || function (t, e) { return (e - t) / 5 }, v = []; const w = window.matchMedia("(prefers-reduced-motion: reduce)"); function x() { if (w.matches) return console.log("This browser has prefers reduced motion turned on, so the cursor did not init"), !1; s = document.createElement("canvas"), h = s.getContext("2d"), s.style.top = "0px", s.style.left = "0px", s.style.pointerEvents = "none", e ? (s.style.position = "absolute", n.appendChild(s), s.width = n.clientWidth, s.height = n.clientHeight) : (s.style.position = "fixed", document.body.appendChild(s), s.width = a, s.height = r), h.font = A, h.textBaseline = "middle", h.textAlign = "center", i.forEach((t => { let e = h.measureText(t), n = document.createElement("canvas"), i = n.getContext("2d"); n.width = e.width, n.height = 2.5 * e.actualBoundingBoxAscent, i.textAlign = "center", i.font = A, i.textBaseline = "middle"; var s = o[Math.floor(Math.random() * o.length)]; i.fillStyle = s, i.fillText(t, n.width / 2, e.actualBoundingBoxAscent), v.push(n) })), n.addEventListener("mousemove", C), n.addEventListener("touchmove", M, { passive: !0 }), n.addEventListener("touchstart", M, { passive: !0 }), window.addEventListener("resize", E), B() } function E(t) { a = window.innerWidth, r = window.innerHeight, e ? (s.width = n.clientWidth, s.height = n.clientHeight) : (s.width = a, s.height = r) } function M(t) { if (t.touches.length > 0) for (let e = 0; e < t.touches.length; e++)L(t.touches[e].clientX, t.touches[e].clientY, v[Math.floor(Math.random() * v.length)]) } function C(t) { if (e) { const e = n.getBoundingClientRect(); d.x = t.clientX - e.left, d.y = t.clientY - e.top } else d.x = t.clientX, d.y = t.clientY; L(d.x, d.y, v[Math.floor(Math.random() * i.length)]) } function L(t, e, n) { u.push(new R(t, e, n)) } function B() { !function () { if (0 != u.length) { h.clearRect(0, 0, a, r); for (let t = 0; t < u.length; t++)u[t].update(h); for (let t = u.length - 1; t >= 0; t--)u[t].lifeSpan < 0 && u.splice(t, 1); 0 == u.length && h.clearRect(0, 0, a, r) } }(), c = requestAnimationFrame(B) } function b() { s.remove(), cancelAnimationFrame(c), n.removeEventListener("mousemove", C), n.removeEventListener("touchmove", M), n.removeEventListener("touchstart", M), window.addEventListener("resize", E) } function R(t, e, n) { const i = m(); this.rotationSign = Math.random() < .5 ? -1 : 1, this.age = 0, this.initialLifeSpan = i, this.lifeSpan = i, this.velocity = g(), this.position = { x: t + l.x, y: e + l.y }, this.canv = n, this.update = function (t) { this.position.x += this.velocity.x, this.position.y += this.velocity.y, this.lifeSpan--, this.age++, this.velocity.x += f.x_func(this.age, this.initialLifeSpan), this.velocity.y += f.y_func(this.age, this.initialLifeSpan); const e = p(this.age, this.initialLifeSpan), n = .0174533 * (this.rotationSign * y(this.age, this.initialLifeSpan)); t.translate(this.position.x, this.position.y), t.rotate(n), t.drawImage(this.canv, -this.canv.width / 2 * e, -this.canv.height / 2, this.canv.width * e, this.canv.height * e), t.rotate(-n), t.translate(-this.position.x, -this.position.y) } } return w.onchange = () => { w.matches ? b() : x() }, x(), { destroy: b } }, t.clockCursor = function (t) { let e, n, i, o = t && t.element, s = o || document.body, h = window.innerWidth, c = window.innerHeight, l = { x: h / 2, y: h / 2 }; const a = t && t.dateColor || "blue", r = t && t.faceColor || "black", d = t && t.secondsColor || "red", u = t && t.minutesColor || "black", A = t && t.hoursColor || "black", m = .4, g = t && t.theDays || ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"], f = t && t.theMonths || ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"]; let p = new Date, y = p.getDate(), v = p.getYear() + 1900; const w = (" " + g[p.getDay()] + " " + y + " " + f[p.getMonth()] + " " + v).split(""), x = ["3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "1", "2"], E = x.length, M = ["•", "•", "•"], C = ["•", "•", "•", "•"], L = ["•", "•", "•", "•", "•"], B = 360 / E, b = 360 / w.length, R = 45 / 6.5, S = [], Y = [], W = [], H = [], I = [], X = [], D = [], T = [], F = []; var z = parseInt(w.length + E + M.length + C.length + L.length) + 1; const P = window.matchMedia("(prefers-reduced-motion: reduce)"); function J() { if (P.matches) return console.log("This browser has prefers reduced motion turned on, so the cursor did not init"), !1; e = document.createElement("canvas"), n = e.getContext("2d"), e.style.top = "0px", e.style.left = "0px", e.style.pointerEvents = "none", o ? (e.style.position = "absolute", s.appendChild(e), e.width = s.clientWidth, e.height = s.clientHeight) : (e.style.position = "fixed", document.body.appendChild(e), e.width = h, e.height = c), n.font = "10px sans-serif", n.textAlign = "center", n.textBaseline = "middle"; for (let t = 0; t < z; t++)S[t] = 0, Y[t] = 0, W[t] = 0, H[t] = 0; for (let t = 0; t < w.length; t++)F[t] = { color: a, value: w[t] }; for (let t = 0; t < x.length; t++)T[t] = { color: r, value: x[t] }; for (let t = 0; t < M.length; t++)D[t] = { color: A, value: M[t] }; for (let t = 0; t < C.length; t++)X[t] = { color: u, value: C[t] }; for (let t = 0; t < L.length; t++)I[t] = { color: d, value: L[t] }; s.addEventListener("mousemove", Z), s.addEventListener("touchmove", Q, { passive: !0 }), s.addEventListener("touchstart", Q, { passive: !0 }), window.addEventListener("resize", U), k() } function U(t) { h = window.innerWidth, c = window.innerHeight, o ? (e.width = s.clientWidth, e.height = s.clientHeight) : (e.width = h, e.height = c) } function Q(t) { if (t.touches.length > 0) if (o) { const e = s.getBoundingClientRect(); l.x = t.touches[0].clientX - e.left, l.y = t.touches[0].clientY - e.top } else l.x = t.touches[0].clientX, l.y = t.touches[0].clientY } function Z(t) { if (o) { const e = s.getBoundingClientRect(); l.x = t.clientX - e.left, l.y = t.clientY - e.top } else l.x = t.clientX, l.y = t.clientY } function k() { !function () { W[0] = Math.round(S[0] += (l.y - S[0]) * m), H[0] = Math.round(Y[0] += (l.x - Y[0]) * m); for (let t = 1; t < z; t++)W[t] = Math.round(S[t] += (W[t - 1] - S[t]) * m), H[t] = Math.round(Y[t] += (H[t - 1] - Y[t]) * m), S[t - 1] >= c - 80 && (S[t - 1] = c - 80), Y[t - 1] >= h - 80 && (Y[t - 1] = h - 80) }(), function () { n.clearRect(0, 0, h, c); const t = new Date, e = t.getSeconds(), i = Math.PI * (e - 15) / 30, o = t.getMinutes(), s = Math.PI * (o - 15) / 30, l = t.getHours(), a = Math.PI * (l - 3) / 6 + Math.PI * parseInt(t.getMinutes()) / 360; for (let t = 0; t < F.length; t++)F[t].y = S[t] + 67.5 * Math.sin(-i + t * b * Math.PI / 180), F[t].x = Y[t] + 67.5 * Math.cos(-i + t * b * Math.PI / 180), n.fillStyle = F[t].color, n.fillText(F[t].value, F[t].x, F[t].y); for (let t = 0; t < T.length; t++)T[t].y = S[F.length + t] + 45 * Math.sin(t * B * Math.PI / 180), T[t].x = Y[F.length + t] + 45 * Math.cos(t * B * Math.PI / 180), n.fillStyle = T[t].color, n.fillText(T[t].value, T[t].x, T[t].y); for (let t = 0; t < D.length; t++)D[t].y = S[F.length + E + t] + 0 + t * R * Math.sin(a), D[t].x = Y[F.length + E + t] + 0 + t * R * Math.cos(a), n.fillStyle = D[t].color, n.fillText(D[t].value, D[t].x, D[t].y); for (let t = 0; t < X.length; t++)X[t].y = S[F.length + E + D.length + t] + 0 + t * R * Math.sin(s), X[t].x = Y[F.length + E + D.length + t] + 0 + t * R * Math.cos(s), n.fillStyle = X[t].color, n.fillText(X[t].value, X[t].x, X[t].y); for (let t = 0; t < I.length; t++)I[t].y = S[F.length + E + D.length + X.length + t] + 0 + t * R * Math.sin(i), I[t].x = Y[F.length + E + D.length + X.length + t] + 0 + t * R * Math.cos(i), n.fillStyle = I[t].color, n.fillText(I[t].value, I[t].x, I[t].y) }(), i = requestAnimationFrame(k) } function N() { e.remove(), cancelAnimationFrame(i), s.removeEventListener("mousemove", Z), s.removeEventListener("touchmove", Q), s.removeEventListener("touchstart", Q), window.addEventListener("resize", U) } return P.onchange = () => { P.matches ? N() : J() }, J(), { destroy: N } }, t.emojiCursor = function (t) { const e = t && t.emoji || ["😀", "😂", "😆", "😊"]; let n = t && t.element, i = n || document.body, o = window.innerWidth, s = window.innerHeight; const h = { x: o / 2, y: o / 2 }, c = { x: o / 2, y: o / 2 }; let l = 0; const a = [], r = []; let d, u, A; const m = window.matchMedia("(prefers-reduced-motion: reduce)"); function g() { if (m.matches) return console.log("This browser has prefers reduced motion turned on, so the cursor did not init"), !1; d = document.createElement("canvas"), u = d.getContext("2d"), d.style.top = "0px", d.style.left = "0px", d.style.pointerEvents = "none", n ? (d.style.position = "absolute", i.appendChild(d), d.width = i.clientWidth, d.height = i.clientHeight) : (d.style.position = "fixed", document.body.appendChild(d), d.width = o, d.height = s), u.font = "21px serif", u.textBaseline = "middle", u.textAlign = "center", e.forEach((t => { let e = u.measureText(t), n = document.createElement("canvas"), i = n.getContext("2d"); n.width = e.width, n.height = 2 * e.actualBoundingBoxAscent, i.textAlign = "center", i.font = "21px serif", i.textBaseline = "middle", i.fillText(t, n.width / 2, e.actualBoundingBoxAscent), r.push(n) })), i.addEventListener("mousemove", y, { passive: !0 }), i.addEventListener("touchmove", p, { passive: !0 }), i.addEventListener("touchstart", p, { passive: !0 }), window.addEventListener("resize", f), w() } function f(t) { o = window.innerWidth, s = window.innerHeight, n ? (d.width = i.clientWidth, d.height = i.clientHeight) : (d.width = o, d.height = s) } function p(t) { if (t.touches.length > 0) for (let e = 0; e < t.touches.length; e++)v(t.touches[e].clientX, t.touches[e].clientY, r[Math.floor(Math.random() * r.length)]) } function y(t) { t.timeStamp - l < 16 || window.requestAnimationFrame((() => { if (n) { const e = i.getBoundingClientRect(); h.x = t.clientX - e.left, h.y = t.clientY - e.top } else h.x = t.clientX, h.y = t.clientY; Math.hypot(h.x - c.x, h.y - c.y) > 1 && (v(h.x, h.y, r[Math.floor(Math.random() * e.length)]), c.x = h.x, c.y = h.y, l = t.timeStamp) })) } function v(t, e, n) { a.push(new E(t, e, n)) } function w() { !function () { if (0 != a.length) { u.clearRect(0, 0, o, s); for (let t = 0; t < a.length; t++)a[t].update(u); for (let t = a.length - 1; t >= 0; t--)a[t].lifeSpan < 0 && a.splice(t, 1); 0 == a.length && u.clearRect(0, 0, o, s) } }(), A = requestAnimationFrame(w) } function x() { d.remove(), cancelAnimationFrame(A), i.removeEventListener("mousemove", y), i.removeEventListener("touchmove", p), i.removeEventListener("touchstart", p), window.addEventListener("resize", f) } function E(t, e, n) { const i = Math.floor(60 * Math.random() + 80); this.initialLifeSpan = i, this.lifeSpan = i, this.velocity = { x: (Math.random() < .5 ? -1 : 1) * (Math.random() / 2), y: .4 * Math.random() + .8 }, this.position = { x: t, y: e }, this.canv = n, this.update = function (t) { this.position.x += this.velocity.x, this.position.y += this.velocity.y, this.lifeSpan--, this.velocity.y += .05; const e = Math.max(this.lifeSpan / this.initialLifeSpan, 0); t.drawImage(this.canv, this.position.x - this.canv.width / 2 * e, this.position.y - this.canv.height / 2, this.canv.width * e, this.canv.height * e) } } return m.onchange = () => { m.matches ? x() : g() }, g(), { destroy: x } }, t.fairyDustCursor = function (t) { let e = t && t.colors || ["#D61C59", "#E7D84B", "#1B8798"], n = t && t.element, i = n || document.body, o = window.innerWidth, s = window.innerHeight; const h = { x: o / 2, y: o / 2 }, c = { x: o / 2, y: o / 2 }, l = [], a = []; let r, d, u; const A = window.matchMedia("(prefers-reduced-motion: reduce)"); function m() { if (A.matches) return console.log("This browser has prefers reduced motion turned on, so the cursor did not init"), !1; r = document.createElement("canvas"), d = r.getContext("2d"), r.style.top = "0px", r.style.left = "0px", r.style.pointerEvents = "none", n ? (r.style.position = "absolute", i.appendChild(r), r.width = i.clientWidth, r.height = i.clientHeight) : (r.style.position = "fixed", i.appendChild(r), r.width = o, r.height = s), d.font = "21px serif", d.textBaseline = "middle", d.textAlign = "center", e.forEach((t => { let e = d.measureText("*"), n = document.createElement("canvas"), i = n.getContext("2d"); n.width = e.width, n.height = e.actualBoundingBoxAscent + e.actualBoundingBoxDescent, i.fillStyle = t, i.textAlign = "center", i.font = "21px serif", i.textBaseline = "middle", i.fillText("*", n.width / 2, e.actualBoundingBoxAscent), a.push(n) })), i.addEventListener("mousemove", p), i.addEventListener("touchmove", f, { passive: !0 }), i.addEventListener("touchstart", f, { passive: !0 }), window.addEventListener("resize", g), v() } function g(t) { o = window.innerWidth, s = window.innerHeight, n ? (r.width = i.clientWidth, r.height = i.clientHeight) : (r.width = o, r.height = s) } function f(t) { if (t.touches.length > 0) for (let e = 0; e < t.touches.length; e++)y(t.touches[e].clientX, t.touches[e].clientY, a[Math.floor(Math.random() * a.length)]) } function p(t) { window.requestAnimationFrame((() => { if (n) { const e = i.getBoundingClientRect(); h.x = t.clientX - e.left, h.y = t.clientY - e.top } else h.x = t.clientX, h.y = t.clientY; Math.hypot(h.x - c.x, h.y - c.y) > 1.5 && (y(h.x, h.y, a[Math.floor(Math.random() * e.length)]), c.x = h.x, c.y = h.y) })) } function y(t, e, n) { l.push(new x(t, e, n)) } function v() { !function () { if (0 != l.length) { d.clearRect(0, 0, o, s); for (let t = 0; t < l.length; t++)l[t].update(d); for (let t = l.length - 1; t >= 0; t--)l[t].lifeSpan < 0 && l.splice(t, 1); 0 == l.length && d.clearRect(0, 0, o, s) } }(), u = requestAnimationFrame(v) } function w() { r.remove(), cancelAnimationFrame(u), i.removeEventListener("mousemove", p), i.removeEventListener("touchmove", f), i.removeEventListener("touchstart", f), window.addEventListener("resize", g) } function x(t, e, n) { const i = Math.floor(30 * Math.random() + 60); this.initialLifeSpan = i, this.lifeSpan = i, this.velocity = { x: (Math.random() < .5 ? -1 : 1) * (Math.random() / 2), y: .7 * Math.random() + .9 }, this.position = { x: t, y: e }, this.canv = n, this.update = function (t) { this.position.x += this.velocity.x, this.position.y += this.velocity.y, this.lifeSpan--, this.velocity.y += .02; const e = Math.max(this.lifeSpan / this.initialLifeSpan, 0); t.drawImage(this.canv, this.position.x - this.canv.width / 2 * e, this.position.y - this.canv.height / 2, this.canv.width * e, this.canv.height * e) } } return A.onchange = () => { A.matches ? w() : m() }, m(), { destroy: w } }, t.followingDotCursor = function (t) { let e, n, i = t && t.element, o = i || document.body, s = window.innerWidth, h = window.innerHeight, c = { x: s / 2, y: s / 2 }, l = new function (t, e, n, i) { this.position = { x: t, y: e }, this.width = n, this.lag = i, this.moveTowards = function (t, e, n) { this.position.x += (t - this.position.x) / this.lag, this.position.y += (e - this.position.y) / this.lag, n.fillStyle = a, n.beginPath(), n.arc(this.position.x, this.position.y, this.width, 0, 2 * Math.PI), n.fill(), n.closePath() } }(s / 2, h / 2, 10, 10), a = t?.color || "#323232a6"; const r = window.matchMedia("(prefers-reduced-motion: reduce)"); function d() { if (r.matches) return console.log("This browser has prefers reduced motion turned on, so the cursor did not init"), !1; e = document.createElement("canvas"), n = e.getContext("2d"), e.style.top = "0px", e.style.left = "0px", e.style.pointerEvents = "none", i ? (e.style.position = "absolute", o.appendChild(e), e.width = o.clientWidth, e.height = o.clientHeight) : (e.style.position = "fixed", document.body.appendChild(e), e.width = s, e.height = h), o.addEventListener("mousemove", A), window.addEventListener("resize", u), m() } function u(t) { s = window.innerWidth, h = window.innerHeight, i ? (e.width = o.clientWidth, e.height = o.clientHeight) : (e.width = s, e.height = h) } function A(t) { if (i) { const e = o.getBoundingClientRect(); c.x = t.clientX - e.left, c.y = t.clientY - e.top } else c.x = t.clientX, c.y = t.clientY } function m() { n.clearRect(0, 0, s, h), l.moveTowards(c.x, c.y, n), requestAnimationFrame(m) } function g() { e.remove(), cancelAnimationFrame(m), o.removeEventListener("mousemove", A), window.addEventListener("resize", u) } return r.onchange = () => { r.matches ? g() : d() }, d(), { destroy: g } }, t.ghostCursor = function (t) { let e, n, i, o = t && t.element, s = o || document.body, h = t && t.randomDelay, c = t && t.minDelay || 5, l = t && t.maxDelay || 50, a = window.innerWidth, r = window.innerHeight, d = { x: a / 2, y: a / 2 }, u = [], A = new Image; t && t.image ? A.src = t.image : A.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAATCAYAAACk9eypAAAAAXNSR0IArs4c6QAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAhGVYSWZNTQAqAAAACAAFARIAAwAAAAEAAQAAARoABQAAAAEAAABKARsABQAAAAEAAABSASgAAwAAAAEAAgAAh2kABAAAAAEAAABaAAAAAAAAAEgAAAABAAAASAAAAAEAA6ABAAMAAAABAAEAAKACAAQAAAABAAAADKADAAQAAAABAAAAEwAAAAAChpcNAAAACXBIWXMAAAsTAAALEwEAmpwYAAABWWlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgpMwidZAAABqElEQVQoFY3SPUvDQBgH8BREpRHExYiDgmLFl6WC+AYmWeyLg4i7buJX8DMpOujgyxGvUYeCgzhUQUSKKLUS0+ZyptXh8Z5Ti621ekPyJHl+uftfomhaf9Ei5JyxXKfynyEA6EYcLHpwyflT958GAQ7DTABNHd8EbtDbEH2BD5QEQmi2mM8P/Iq+A0SzszEg+3sPjDnDdVEtQKQbMUidHD3xVzf6A9UDEmEm+8h9KTqTVUjT+vB53aHrCbAPiceYq1dQI1Aqv4EhMll0jzv+Y0yiRgCnLRSYyDQHVoqUXe4uKL9l+L7GXC4vkMhE6eW/AOJs9k583ORDUyXMZ8F5SVHVVnllmPNKSFagAJ5DofaqGXw/gHBYg51dIldkmknY3tguv3jOtHR4+MqAzaraJXbEhqHhcQlwGSOi5pytVQHZLN5s0WNe8HPrLYlFsO20RPHkImxsbmHdLJFI76th7Z4SeuF53hTeFLvhRCJRCTKZKxgdnRDbW+iozFJbBMw14/ElwGYc0egMBMFzT21f5Rog33Z7dX02GBm7WV5ZfT5Nn5bE3zuCDe9UxdTpNvK+5AAAAABJRU5ErkJggg=="; const m = window.matchMedia("(prefers-reduced-motion: reduce)"); function g() { if (m.matches) return console.log("This browser has prefers reduced motion turned on, so the cursor did not init"), !1; e = document.createElement("canvas"), n = e.getContext("2d"), e.style.top = "0px", e.style.left = "0px", e.style.pointerEvents = "none", o ? (e.style.position = "absolute", s.appendChild(e), e.width = s.clientWidth, e.height = s.clientHeight) : (e.style.position = "fixed", document.body.appendChild(e), e.width = a, e.height = r), s.addEventListener("mousemove", x), s.addEventListener("touchmove", p, { passive: !0 }), s.addEventListener("touchstart", p, { passive: !0 }), window.addEventListener("resize", f), M() } function f(t) { a = window.innerWidth, r = window.innerHeight, o ? (e.width = s.clientWidth, e.height = s.clientHeight) : (e.width = a, e.height = r) } function p(t) { if (t.touches.length > 0) for (let e = 0; e < t.touches.length; e++)E(t.touches[e].clientX, t.touches[e].clientY, A) } m.onchange = () => { m.matches ? C() : g() }; let y = () => Math.floor(Math.random() * (l - c + 1)) + c, v = Date.now(), w = y(); function x(t) { if (h) { if (v + w > Date.now()) return; v = Date.now(), w = y() } if (o) { const e = s.getBoundingClientRect(); d.x = t.clientX - e.left, d.y = t.clientY - e.top } else d.x = t.clientX, d.y = t.clientY; E(d.x, d.y, A) } function E(t, e, n) { u.push(new L(t, e, n)) } function M() { !function () { if (0 != u.length) { n.clearRect(0, 0, a, r); for (let t = 0; t < u.length; t++)u[t].update(n); for (let t = u.length - 1; t >= 0; t--)u[t].lifeSpan < 0 && u.splice(t, 1); 0 == u.length && n.clearRect(0, 0, a, r) } }(), i = requestAnimationFrame(M) } function C() { e.remove(), cancelAnimationFrame(i), s.removeEventListener("mousemove", x), s.removeEventListener("touchmove", p), s.removeEventListener("touchstart", p), window.addEventListener("resize", f) } function L(t, e, n) { this.initialLifeSpan = 40, this.lifeSpan = 40, this.position = { x: t, y: e }, this.image = n, this.update = function (t) { this.lifeSpan--; const e = Math.max(this.lifeSpan / this.initialLifeSpan, 0); t.globalAlpha = e, t.drawImage(this.image, this.position.x, this.position.y) } } return g(), { destroy: C } }, t.rainbowCursor = function (t) { let e, n, i, o = t && t.element, s = o || document.body, h = window.innerWidth, c = window.innerHeight, l = { x: h / 2, y: h / 2 }, a = []; const r = t?.length || 20, d = t?.colors || ["#FE0000", "#FD8C00", "#FFE500", "#119F0B", "#0644B3", "#C22EDC"], u = t?.size || 3; let A = !1; const m = window.matchMedia("(prefers-reduced-motion: reduce)"); function g() { if (m.matches) return console.log("This browser has prefers reduced motion turned on, so the cursor did not init"), !1; e = document.createElement("canvas"), n = e.getContext("2d"), e.style.top = "0px", e.style.left = "0px", e.style.pointerEvents = "none", o ? (e.style.position = "absolute", s.appendChild(e), e.width = s.clientWidth, e.height = s.clientHeight) : (e.style.position = "fixed", document.body.appendChild(e), e.width = h, e.height = c), s.addEventListener("mousemove", p), window.addEventListener("resize", f), y() } function f(t) { h = window.innerWidth, c = window.innerHeight, o ? (e.width = s.clientWidth, e.height = s.clientHeight) : (e.width = h, e.height = c) } function p(t) { if (o) { const e = s.getBoundingClientRect(); l.x = t.clientX - e.left, l.y = t.clientY - e.top } else l.x = t.clientX, l.y = t.clientY; if (!1 === A) { A = !0; for (let t = 0; t < r; t++)e = l.x, n = l.y, void 0, a.push(new w(e, n)) } var e, n } function y() { !function () { n.clearRect(0, 0, h, c), n.lineJoin = "round"; let t = [], e = l.x, i = l.y; a.forEach((function (n, o, s) { let h = s[o + 1] || s[0]; n.position.x = e, n.position.y = i, t.push({ x: e, y: i }), e += .4 * (h.position.x - n.position.x), i += .4 * (h.position.y - n.position.y) })), d.forEach(((e, i) => { n.beginPath(), n.strokeStyle = e, t.length && n.moveTo(t[0].x, t[0].y + i * (u - 1)), t.forEach(((t, e) => { 0 !== e && n.lineTo(t.x, t.y + i * u) })), n.lineWidth = u, n.lineCap = "round", n.stroke() })) }(), i = requestAnimationFrame(y) } function v() { e.remove(), cancelAnimationFrame(i), s.removeEventListener("mousemove", p), window.addEventListener("resize", f) } function w(t, e) { this.position = { x: t, y: e } } return m.onchange = () => { m.matches ? v() : g() }, g(), { destroy: v } }, t.snowflakeCursor = function (t) { let e, n, i, o = t && t.element, s = o || document.body, h = ["❄️"], c = window.innerWidth, l = window.innerHeight, a = { x: c / 2, y: c / 2 }, r = [], d = []; const u = window.matchMedia("(prefers-reduced-motion: reduce)"); function A() { if (u.matches) return console.log("This browser has prefers reduced motion turned on, so the cursor did not init"), !1; e = document.createElement("canvas"), n = e.getContext("2d"), e.style.top = "0px", e.style.left = "0px", e.style.pointerEvents = "none", o ? (e.style.position = "absolute", s.appendChild(e), e.width = s.clientWidth, e.height = s.clientHeight) : (e.style.position = "fixed", document.body.appendChild(e), e.width = c, e.height = l), n.font = "12px serif", n.textBaseline = "middle", n.textAlign = "center", h.forEach((t => { let e = n.measureText(t), i = document.createElement("canvas"), o = i.getContext("2d"); i.width = e.width, i.height = 2 * e.actualBoundingBoxAscent, o.textAlign = "center", o.font = "12px serif", o.textBaseline = "middle", o.fillText(t, i.width / 2, e.actualBoundingBoxAscent), d.push(i) })), s.addEventListener("mousemove", f), s.addEventListener("touchmove", g, { passive: !0 }), s.addEventListener("touchstart", g, { passive: !0 }), window.addEventListener("resize", m), y() } function m(t) { c = window.innerWidth, l = window.innerHeight, o ? (e.width = s.clientWidth, e.height = s.clientHeight) : (e.width = c, e.height = l) } function g(t) { if (t.touches.length > 0) for (let e = 0; e < t.touches.length; e++)p(t.touches[e].clientX, t.touches[e].clientY, d[Math.floor(Math.random() * d.length)]) } function f(t) { if (o) { const e = s.getBoundingClientRect(); a.x = t.clientX - e.left, a.y = t.clientY - e.top } else a.x = t.clientX, a.y = t.clientY; p(a.x, a.y, d[Math.floor(Math.random() * h.length)]) } function p(t, e, n) { r.push(new w(t, e, n)) } function y() { !function () { if (0 != r.length) { n.clearRect(0, 0, c, l); for (let t = 0; t < r.length; t++)r[t].update(n); for (let t = r.length - 1; t >= 0; t--)r[t].lifeSpan < 0 && r.splice(t, 1); 0 == r.length && n.clearRect(0, 0, c, l) } }(), i = requestAnimationFrame(y) } function v() { e.remove(), cancelAnimationFrame(i), s.removeEventListener("mousemove", f), s.removeEventListener("touchmove", g), s.removeEventListener("touchstart", g), window.addEventListener("resize", m) } function w(t, e, n) { const i = Math.floor(60 * Math.random() + 80); this.initialLifeSpan = i, this.lifeSpan = i, this.velocity = { x: (Math.random() < .5 ? -1 : 1) * (Math.random() / 2), y: 1 + Math.random() }, this.position = { x: t, y: e }, this.canv = n, this.update = function (t) { this.position.x += this.velocity.x, this.position.y += this.velocity.y, this.lifeSpan--, this.velocity.x += 2 * (Math.random() < .5 ? -1 : 1) / 75, this.velocity.y -= Math.random() / 300; const e = Math.max(this.lifeSpan / this.initialLifeSpan, 0), n = .0174533 * (2 * this.lifeSpan); t.translate(this.position.x, this.position.y), t.rotate(n), t.drawImage(this.canv, -this.canv.width / 2 * e, -this.canv.height / 2, this.canv.width * e, this.canv.height * e), t.rotate(-n), t.translate(-this.position.x, -this.position.y) } } return u.onchange = () => { u.matches ? v() : A() }, A(), { destroy: v } }, t.springyEmojiCursor = function (t) { let e, n, i, o, s = t && t.emoji || "🤪", h = t && t.element, c = h || document.body, l = window.innerWidth, a = window.innerHeight, r = { x: l / 2, y: l / 2 }, d = []; const u = window.matchMedia("(prefers-reduced-motion: reduce)"); function A() { if (u.matches) return console.log("This browser has prefers reduced motion turned on, so the cursor did not init"), !1; e = document.createElement("canvas"), n = e.getContext("2d"), e.style.top = "0px", e.style.left = "0px", e.style.pointerEvents = "none", h ? (e.style.position = "absolute", c.appendChild(e), e.width = c.clientWidth, e.height = c.clientHeight) : (e.style.position = "fixed", document.body.appendChild(e), e.width = l, e.height = a), n.font = "16px serif", n.textBaseline = "middle", n.textAlign = "center"; let t = n.measureText(s), i = document.createElement("canvas"), r = i.getContext("2d"); i.width = t.width, i.height = 2 * t.actualBoundingBoxAscent, r.textAlign = "center", r.font = "16px serif", r.textBaseline = "middle", r.fillText(s, i.width / 2, t.actualBoundingBoxAscent), o = i; let A = 0; for (A = 0; A < 7; A++)d[A] = new x(o); c.addEventListener("mousemove", f), c.addEventListener("touchmove", g, { passive: !0 }), c.addEventListener("touchstart", g, { passive: !0 }), window.addEventListener("resize", m), p() } function m(t) { l = window.innerWidth, a = window.innerHeight, h ? (e.width = c.clientWidth, e.height = c.clientHeight) : (e.width = l, e.height = a) } function g(t) { if (t.touches.length > 0) if (h) { const e = c.getBoundingClientRect(); r.x = t.touches[0].clientX - e.left, r.y = t.touches[0].clientY - e.top } else r.x = t.touches[0].clientX, r.y = t.touches[0].clientY } function f(t) { if (h) { const e = c.getBoundingClientRect(); r.x = t.clientX - e.left, r.y = t.clientY - e.top } else r.x = t.clientX, r.y = t.clientY } function p() { !function () { e.width = e.width, d[0].position.x = r.x, d[0].position.y = r.y; for (let t = 1; t < 7; t++) { let i = new v(0, 0); t > 0 && w(t - 1, t, i), t < 6 && w(t + 1, t, i); let o, s, h = new v(10 * -d[t].velocity.x, 10 * -d[t].velocity.y), c = new v((i.X + h.X) / 1, (i.Y + h.Y) / 1 + 50); d[t].velocity.x += .01 * c.X, d[t].velocity.y += .01 * c.Y, Math.abs(d[t].velocity.x) < .1 && Math.abs(d[t].velocity.y) < .1 && Math.abs(c.X) < .1 && Math.abs(c.Y) < .1 && (d[t].velocity.x = 0, d[t].velocity.y = 0), d[t].position.x += d[t].velocity.x, d[t].position.y += d[t].velocity.y, o = e.clientHeight, s = e.clientWidth, d[t].position.y >= o - 11 - 1 && (d[t].velocity.y > 0 && (d[t].velocity.y = .7 * -d[t].velocity.y), d[t].position.y = o - 11 - 1), d[t].position.x >= s - 11 && (d[t].velocity.x > 0 && (d[t].velocity.x = .7 * -d[t].velocity.x), d[t].position.x = s - 11 - 1), d[t].position.x < 0 && (d[t].velocity.x < 0 && (d[t].velocity.x = .7 * -d[t].velocity.x), d[t].position.x = 0), d[t].draw(n) } }(), i = requestAnimationFrame(p) } function y() { e.remove(), cancelAnimationFrame(i), c.removeEventListener("mousemove", f), c.removeEventListener("touchmove", g), c.removeEventListener("touchstart", g), window.addEventListener("resize", m) } function v(t, e) { this.X = t, this.Y = e } function w(t, e, n) { let i = d[t].position.x - d[e].position.x, o = d[t].position.y - d[e].position.y, s = Math.sqrt(i * i + o * o); if (s > 10) { let t = 10 * (s - 10); n.X += i / s * t, n.Y += o / s * t } } function x(t) { this.position = { x: r.x, y: r.y }, this.velocity = { x: 0, y: 0 }, this.canv = t, this.draw = function (t) { t.drawImage(this.canv, this.position.x - this.canv.width / 2, this.position.y - this.canv.height / 2, this.canv.width, this.canv.height) } } return u.onchange = () => { u.matches ? y() : A() }, A(), { destroy: y } }, t.textFlag = function (t) { let e, n, i, o = t || {}, s = t && t.element, h = s || document.body, c = o.text ? " " + t.text : " Your Text Here", l = t?.color || "#000000", a = o.font || "monospace", r = o.textSize || 12, d = r + "px " + a, u = o.gap || r + 2, A = 0, m = [], g = window.innerWidth, f = window.innerHeight, p = { x: g / 2, y: g / 2 }; for (let t = 0; t < c.length; t++)m[t] = { letter: c.charAt(t), x: g / 2, y: g / 2 }; t?.size; const y = window.matchMedia("(prefers-reduced-motion: reduce)"); function v() { if (y.matches) return console.log("This browser has prefers reduced motion turned on, so the cursor did not init"), !1; e = document.createElement("canvas"), n = e.getContext("2d"), e.style.top = "0px", e.style.left = "0px", e.style.pointerEvents = "none", s ? (e.style.position = "absolute", h.appendChild(e), e.width = h.clientWidth, e.height = h.clientHeight) : (e.style.position = "fixed", document.body.appendChild(e), e.width = g, e.height = f), h.addEventListener("mousemove", x), window.addEventListener("resize", w), E() } function w(t) { g = window.innerWidth, f = window.innerHeight, s ? (e.width = h.clientWidth, e.height = h.clientHeight) : (e.width = g, e.height = f) } function x(t) { if (s) { const e = h.getBoundingClientRect(); p.x = t.clientX - e.left, p.y = t.clientY - e.top } else p.x = t.clientX, p.y = t.clientY } function E() { !function () { n.clearRect(0, 0, g, f), A += .15; let t = 2 * Math.cos(A), e = 5 * Math.sin(A); for (let t = m.length - 1; t > 0; t--)m[t].x = m[t - 1].x + u, m[t].y = m[t - 1].y, n.fillStyle = l, n.font = d, n.fillText(m[t].letter, m[t].x, m[t].y); let i = m[0].x, o = m[0].y; i += (p.x - i) / 5 + t + 2, o += (p.y - o) / 5 + e, m[0].x = i, m[0].y = o }(), i = requestAnimationFrame(E) } function M() { e.remove(), cancelAnimationFrame(i), h.removeEventListener("mousemove", x), window.addEventListener("resize", w) } return y.onchange = () => { y.matches ? M() : v() }, v(), { destroy: M } }, t.trailingCursor = function (t) { let e, n, i, o = t && t.element, s = o || document.body, h = window.innerWidth, c = window.innerHeight, l = { x: h / 2, y: h / 2 }, a = []; const r = t?.particles || 15, d = t?.rate || .4, u = t?.baseImageSrc || "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAATCAYAAACk9eypAAAAAXNSR0IArs4c6QAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAhGVYSWZNTQAqAAAACAAFARIAAwAAAAEAAQAAARoABQAAAAEAAABKARsABQAAAAEAAABSASgAAwAAAAEAAgAAh2kABAAAAAEAAABaAAAAAAAAAEgAAAABAAAASAAAAAEAA6ABAAMAAAABAAEAAKACAAQAAAABAAAADKADAAQAAAABAAAAEwAAAAAChpcNAAAACXBIWXMAAAsTAAALEwEAmpwYAAABWWlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgpMwidZAAABqElEQVQoFY3SPUvDQBgH8BREpRHExYiDgmLFl6WC+AYmWeyLg4i7buJX8DMpOujgyxGvUYeCgzhUQUSKKLUS0+ZyptXh8Z5Ti621ekPyJHl+uftfomhaf9Ei5JyxXKfynyEA6EYcLHpwyflT958GAQ7DTABNHd8EbtDbEH2BD5QEQmi2mM8P/Iq+A0SzszEg+3sPjDnDdVEtQKQbMUidHD3xVzf6A9UDEmEm+8h9KTqTVUjT+vB53aHrCbAPiceYq1dQI1Aqv4EhMll0jzv+Y0yiRgCnLRSYyDQHVoqUXe4uKL9l+L7GXC4vkMhE6eW/AOJs9k583ORDUyXMZ8F5SVHVVnllmPNKSFagAJ5DofaqGXw/gHBYg51dIldkmknY3tguv3jOtHR4+MqAzaraJXbEhqHhcQlwGSOi5pytVQHZLN5s0WNe8HPrLYlFsO20RPHkImxsbmHdLJFI76th7Z4SeuF53hTeFLvhRCJRCTKZKxgdnRDbW+iozFJbBMw14/ElwGYc0egMBMFzT21f5Rog33Z7dX02GBm7WV5ZfT5Nn5bE3zuCDe9UxdTpNvK+5AAAAABJRU5ErkJggg=="; let A = !1, m = new Image; m.src = u; const g = window.matchMedia("(prefers-reduced-motion: reduce)"); function f() { if (g.matches) return console.log("This browser has prefers reduced motion turned on, so the cursor did not init"), !1; e = document.createElement("canvas"), n = e.getContext("2d"), e.style.top = "0px", e.style.left = "0px", e.style.pointerEvents = "none", o ? (e.style.position = "absolute", s.appendChild(e), e.width = s.clientWidth, e.height = s.clientHeight) : (e.style.position = "fixed", document.body.appendChild(e), e.width = h, e.height = c), s.addEventListener("mousemove", y), window.addEventListener("resize", p), v() } function p(t) { h = window.innerWidth, c = window.innerHeight, o ? (e.width = s.clientWidth, e.height = s.clientHeight) : (e.width = h, e.height = c) } function y(t) { if (o) { const e = s.getBoundingClientRect(); l.x = t.clientX - e.left, l.y = t.clientY - e.top } else l.x = t.clientX, l.y = t.clientY; if (!1 === A) { A = !0; for (let t = 0; t < r; t++)e = l.x, n = l.y, i = m, a.push(new x(e, n, i)) } var e, n, i } function v() { !function () { n.clearRect(0, 0, h, c); let t = l.x, e = l.y; a.forEach((function (i, o, s) { let h = s[o + 1] || s[0]; i.position.x = t, i.position.y = e, i.move(n), t += (h.position.x - i.position.x) * d, e += (h.position.y - i.position.y) * d })) }(), i = requestAnimationFrame(v) } function w() { e.remove(), cancelAnimationFrame(i), s.removeEventListener("mousemove", y), window.addEventListener("resize", p) } function x(t, e, n) { this.position = { x: t, y: e }, this.image = n, this.move = function (t) { t.drawImage(this.image, this.position.x, this.position.y) } } return g.onchange = () => { g.matches ? w() : f() }, f(), { destroy: w } }, Object.defineProperty(t, "__esModule", { value: !0 }), t }({});
+    </script>
+
+    <script id="mainscript">
+        window.onload = function () {
+            document.getElementById('inputData').value = '';
+            document.getElementById('pagination').style.display = 'block';
+            new cursoreffects.fairyDustCursor();
+        };
+
+        let isAscending = true; // Default sorting order
+
+        function enableButtons(isenable, buttons) {
+            buttons.forEach(buttonId => {
+                document.getElementById(buttonId).disabled = isenable;
+            });
+        }
+
+        function enablebutton1() {
+            enableButtons(0, ["j2p", "j2o", "itemsPerPage", "goToPage", "goToOrder", "isass", "isnotass"]);
+        }
+
+        function enablebutton2() {
+            enableButtons(1, ["prevPage", "firstPage", "isass", "isnotass", "j2p", "j2o", "itemsPerPage", "goToPage", "goToOrder", "isass", "isnotass"]);
+        }
+
+        function getCommonElements() {
+            const input = document.getElementById('inputData').value.trim();
+            const resultDiv = document.getElementById('result');
+            const lineSummaryDiv = document.getElementById('lineSummary');
+
+            // 动态创建 backToTop 元素（如果不存在）
+            let backToTop = document.getElementById('backToTop');
+            if (!backToTop) {
+                backToTop = document.createElement('button');
+                backToTop.id = 'backToTop';
+                backToTop.className = 'scroll-to-top-btn';
+                backToTop.style.display = 'none'; // 初始隐藏
+
+                // 绑定点击事件
+                backToTop.addEventListener('click', function () {
+                    resultDiv.scrollTo({ top: 0, behavior: 'smooth' }); // 平滑滚动到顶部
+                });
+
+                resultDiv.appendChild(backToTop); // 添加到 result 区域
+            }
+
+            return { input, resultDiv, lineSummaryDiv, backToTop };
+        }
+
+        function handleEmptyInput(input, resultDiv, lineSummaryDiv) {
+            if (!input) {
+                resultDiv.innerHTML = '<div class="empty-message">无数据输入</div>';
+                lineSummaryDiv.textContent = '已输入 0 行数据，其中 0 行不符合格式要求';
+                totalPages = 1;
+                currentPage = 1; // 重置为第一页
+                return true; // 表示输入为空，不需要继续执行后续逻辑
+            }
+            return false; // 表示输入不为空，可以继续执行后续逻辑
+        }
+
+        function createResultItemWithElements(includeAllElements = true) {
+            const buttonContainer = document.createElement('div');
+            buttonContainer.className = 'buttons';
+
+            const p = document.createElement('p');
+
+            if (includeAllElements) {
+                const resultItem = document.createElement('div');
+                resultItem.className = 'result-item';
+
+                const statusDiv = document.createElement('div');
+                statusDiv.className = 'status';
+
+                return { resultItem, statusDiv, buttonContainer, p };
+            } else {
+                return { buttonContainer, p };
+            }
+        }
+
+        function createCopyButton(resultItem, textToCopy, buttonText, successMessage, highlightTextContent) {
+            const button = document.createElement('button');
+            button.textContent = buttonText;
+            button.className = 'neon-button';
+            button.onclick = () => {
+                clearAllStatus();
+                clearHighlight();
+                copyToClipboard(textToCopy);
+                fadeStatus(resultItem, successMessage);
+                resultItem.classList.add('highlighted');
+                highlightText(resultItem, highlightTextContent, 'strong');
+            };
+            return button;
+        }
+
+        function appendResultItem(resultDiv, resultItem, buttonContainer, statusDiv, p, backToTop, lines, invalidLines1, lineSummaryDiv) {
+            buttonContainer.appendChild(statusDiv);
+            resultItem.appendChild(p);
+            resultItem.appendChild(buttonContainer);
+            resultDiv.appendChild(resultItem);
+            resultDiv.appendChild(backToTop);
+
+            lineSummaryDiv.textContent = `已输入 ${lines.length} 行数据，其中 ${invalidLines1} 行不严格符合格式要求`;
+            renderPagination();
+            showPage(1);  // 处理数据后显示第一页
+        }
+
+        function processLineForData(parts, resultItem, serialNumber, statusDiv) {
+            const { buttonContainer, p } = createResultItemWithElements(false);
+
+            if (parts.length === 3) {
+                const A = parts[0];
+                const B = parts[1];
+                const C = parts[2];
+                const processedLine = `${A}\t${B}\n\n拆单发货\n${C}\n`;
+                p.textContent = processedLine;
+
+                const copyABButton = createCopyButton(resultItem, `${A}\t${B}\t${C}`, '复制店铺单号', '复制店铺单号成功,粘贴到拆单表', [A, B, C]);
+                const copyFullButton = createCopyButton(resultItem, processedLine, '复制全部信息', '复制全部信息成功,粘贴到电商群', processedLine);
+                buttonContainer.appendChild(copyABButton);
+                buttonContainer.appendChild(copyFullButton);
+            } else {
+                p.textContent = '数据格式不符合要求\n格式应为 「店铺 原始单号 物流单号」';
+            }
+
+            buttonContainer.appendChild(statusDiv);
+            resultItem.appendChild(serialNumber);
+            resultItem.appendChild(p);
+            resultItem.appendChild(buttonContainer);
+            return resultItem;
+        }
+
+
+        function processData1() {
+            enablebutton1();
+            const { input, resultDiv, lineSummaryDiv, backToTop } = getCommonElements();
+            resultDiv.innerHTML = '';
+
+            if (handleEmptyInput(input, resultDiv, lineSummaryDiv)) {
+                renderPagination();
+                return;
+            }
+
+            const lines = input.split('\n').filter(line => line.trim() !== ''); // 过滤掉空行
+            const sortedLines = isAscending ? lines : lines.slice().reverse();
+            let invalidLines = 0;
+
+            sortedLines.forEach((line, index) => {
+                const parts = line.trim().split(/\s+/);
+                const resultItem = document.createElement('div');
+                resultItem.className = 'result-item';
+                resultItem.id = isAscending ? `resultid${index + 1}` : `resultid${lines.length - index}`;
+
+                const serialNumber = document.createElement('span');
+                serialNumber.textContent = isAscending ? `${index + 1}` : `${lines.length - index}`;
+
+                const statusDiv = document.createElement('div');
+                statusDiv.id = isAscending ? `status${index + 1}` : `status${lines.length - index}`;
+                statusDiv.className = 'status';
+
+                if (parts.length !== 3) {
+                    invalidLines++;
+                }
+
+                // 调用 processLineForData1 处理每一行
+                const processedResultItem = processLineForData(parts, resultItem, serialNumber, statusDiv);
+                resultDiv.appendChild(processedResultItem);
+            });
+
+            resultDiv.appendChild(backToTop);
+            lineSummaryDiv.textContent = `已输入 ${lines.length} 行数据，其中 ${invalidLines} 行不严格符合格式要求`;
+            renderPagination();
+            showPage(1); // 处理数据后显示第一页
+        }
+
+        function processDataCommon(config) {
+            enablebutton2();
+            const { input, resultDiv, lineSummaryDiv, backToTop } = getCommonElements();
+            resultDiv.innerHTML = '';
+
+            if (handleEmptyInput(input, resultDiv, lineSummaryDiv)) {
+                return;
+            }
+
+            const lines = input.split('\n').filter(line => line.trim() !== ''); // 过滤掉空行
+            const counters = { invalidLines1: 0, invalidLines2: 0 }; // 使用对象包装计数器
+
+            // 只创建一个 resultItem
+            const { resultItem, statusDiv, buttonContainer, p } = createResultItemWithElements();
+            let processedLine = ""; // 初始为空
+
+            lines.forEach((line, index) => {
+                const parts = line.trim().split(/\s+/);
+                if (config.processLine) {
+                    // 更新 processedLine 和 counters
+                    processedLine = config.processLine(parts, processedLine, p, counters);
+                }
+            });
+
+            if (config.finalCheck) {
+                processedLine = config.finalCheck(lines, counters, p, processedLine, config.initialText);
+            }
+            p.textContent = processedLine;
+
+            // 使用新的 createCopyButton 函数
+            const copyButton = createCopyButton(resultItem, processedLine, '复制', '复制成功', processedLine);
+            buttonContainer.appendChild(copyButton);
+
+            appendResultItem(resultDiv, resultItem, buttonContainer, statusDiv, p, backToTop, lines, counters.invalidLines1, lineSummaryDiv);
+        }
+
+
+
+        // createProcessDataConfig 完整实现
+        function createProcessDataConfig(config) {
+            const {
+                initialText = "",
+                placeholder = "",
+                checkPartsLength2 = false,
+                dynamicInitialText = false, // 新增动态文本开关
+                useComplexFinalCheck = false
+            } = config;
+
+            return {
+                processLine: (parts, processedLine, p, counters) => {
+                    if (parts.length === 3) {
+                        const A = parts[0];
+                        const B = parts[1];
+                        const C = parts[2];
+                        processedLine += `\n${A}\n${B}\n${placeholder}${C}\n`;
+                    }
+                    if (checkPartsLength2 && parts.length === 2) {
+                        const A = parts[0];
+                        const B = parts[1];
+                        processedLine += `\n${A}\n${B}\n`;
+                        counters.invalidLines2++;
+                    }
+                    if (parts.length !== 3) {
+                        counters.invalidLines1++;
+                    }
+                    return processedLine;
+                },
+                finalCheck: (lines, counters, p, processedLine) => {
+                    let finalInitialText = initialText;
+
+                    // 动态生成初始文本
+                    if (dynamicInitialText) {
+                        const validLines = lines.length - counters.invalidLines1 + counters.invalidLines2;
+                        finalInitialText = validLines > 0
+                            ? (validLines === 1 ? "这单有退款吗\n" : `这${validLines}单有退款吗\n`)
+                            : "";
+                    }
+
+                    // 保留原有校验逻辑
+                    if (useComplexFinalCheck) {
+                        if (lines.length === counters.invalidLines1 - counters.invalidLines2) {
+                            processedLine = '数据不符合格式要求\n格式应为 「店铺 原始单号 物流单号(可选)」';
+                        } else {
+                            processedLine = finalInitialText + processedLine;
+                        }
+                    } else {
+                        if (lines.length === counters.invalidLines1) {
+                            processedLine = '数据不符合格式要求\n格式应为 「店铺 原始单号 物流单号」';
+                        } else {
+                            processedLine = finalInitialText + processedLine;
+                        }
+                    }
+
+                    p.textContent = processedLine;
+                    return processedLine;
+                }
+            };
+        }
+
+        function processData2() {
+            processDataCommon(createProcessDataConfig({ initialText: "双地址\n", checkPartsLength2: true, useComplexFinalCheck: true }));
+        }
+
+        function processData3() {
+            processDataCommon(createProcessDataConfig({ initialText: "物流单号若与后台不一致，后台改为如下对应的物流单号\n" }));
+        }
+
+        function processData4() {
+            processDataCommon(createProcessDataConfig({ initialText: "后台换一下\n", placeholder: "物流单号换为\n" }));
+        }
+
+        function processData5() {
+            processDataCommon(createProcessDataConfig({ checkPartsLength2: true, dynamicInitialText: true, useComplexFinalCheck: true }));
+        }
+
+        function processData6() {
+            processDataCommon(createProcessDataConfig({ initialText: "物流发不了,通知退款\n", checkPartsLength2: true, useComplexFinalCheck: true }));
+        }
+
+        function processDataCommonWithLines(processLines, generateDisplayText) {
+            enablebutton2();
+            const { input, resultDiv, lineSummaryDiv, backToTop } = getCommonElements();
+            resultDiv.innerHTML = '';
+
+            if (handleEmptyInput(input, resultDiv, lineSummaryDiv)) {
+                return;
+            }
+
+            const lines = input.split('\n').filter(line => line.trim() !== '');
+            const processedValue = processLines(lines);
+
+            const { resultItem, statusDiv, buttonContainer, p } = createResultItemWithElements();
+            p.textContent = generateDisplayText(processedValue);
+
+            const copyButton = createCopyButton(resultItem, processedValue, '复制结果', '复制成功', processedValue);
+            buttonContainer.appendChild(copyButton);
+
+            appendResultItem(resultDiv, resultItem, buttonContainer, statusDiv, p, backToTop, lines, 0, lineSummaryDiv);
+        }
+
+        function processData7() {
+            processDataCommonWithLines(
+                lines => lines.reduce((sum, line) => sum + (parseFloat(line.trim()) || 0), 0),
+                sum => `数字之和为：${sum}`
+            );
+        }
+
+        function processData8() {
+            processDataCommonWithLines(
+                lines => lines.join('_'),
+                result => `重命名结果为：${result}`
+            );
+        }
+
+        // ... 保留其他现有代码不变 ...
+
+        // 更新按钮显示状态的函数
+        function updateScrollButtonVisibility(result, backToTop) {
+            if (result.scrollTop > 20) {
+                backToTop.style.display = 'flex';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        }
+
+        // 监听滚动事件，以便实时更新按钮的显示状态
+        document.getElementById('result').addEventListener('scroll', function () {
+            var result = document.getElementById('result');
+            var backToTop = document.getElementById('backToTop');
+            updateScrollButtonVisibility(result, backToTop);
+        });
+
+        // 绑定点击事件，点击按钮时滚动到顶部
+        document.getElementById('backToTop').addEventListener('click', function () {
+            var result = document.getElementById('result');
+
+            // 使用 scrollTo 方法平滑滚动到顶部
+            result.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        function highlightText(resultItem, text, tagName) {
+            const p = resultItem.querySelector('p');
+            let originalText = p.textContent;
+            if (Array.isArray(text)) {
+                text.forEach((part) => {
+                    const escapedPart = part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    const regex = new RegExp(escapedPart, 'g');
+                    originalText = originalText.replace(regex, `<${tagName}>${part}</${tagName}>`);
+                });
+            } else {
+                const escapedText = text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                const regex = new RegExp(escapedText, 'g');
+                originalText = originalText.replace(regex, `<${tagName}>${text}</${tagName}>`);
+            }
+            p.innerHTML = originalText;
+        }
+
+
+        function fadeStatus(resultItem, message) {
+            const buttonContainer = resultItem.querySelector('.buttons');
+
+            // 删除现有的 statusDiv
+            const existingStatusDiv = buttonContainer.querySelector('.status');
+            if (existingStatusDiv) {
+                buttonContainer.removeChild(existingStatusDiv);
+            }
+
+            // 创建新的 statusDiv
+            const statusDiv = document.createElement('div');
+            statusDiv.className = 'status';
+            statusDiv.textContent = message;
+
+            // 添加渐显效果
+            statusDiv.style.opacity = 0; // Set initial opacity to 0
+            buttonContainer.appendChild(statusDiv);
+
+            // Trigger the fade-in effect
+            setTimeout(() => {
+                statusDiv.style.opacity = 1; // Set opacity to 1 for fade-in effect
+            }, 10); // Short delay to ensure reflow
+        }
+
+        function clearHighlight() {
+            const resultItems = document.querySelectorAll('.result-item');
+            resultItems.forEach(item => {
+                const p = item.querySelector('p');
+                if (p) {
+                    // 移除所有 HTML 标签，只保留文本内容
+                    p.textContent = p.textContent.replace(/<[^>]*>/g, '');
+                }
+                item.classList.remove('highlighted');
+            });
+        }
+
+        function clearAllStatus() {
+            const statusDivs = document.querySelectorAll('.status');
+            statusDivs.forEach(statusDiv => {
+                statusDiv.textContent = '';
+            });
+        }
+
+        function copyToClipboard(text) {
+            const tempInput = document.createElement('textarea');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+        }
+
+        // 实时更新行数统计
+        document.getElementById('inputData').addEventListener('input', () => {
+            const input = document.getElementById('inputData').value.trim();
+            const lines = input.split('\n').filter(line => line.trim() !== ''); // 过滤掉空行
+            let invalidLines = 0;
+
+            lines.forEach((line) => {
+                const parts = line.trim().split(/\s+/);
+                if (parts.length !== 3) {
+                    invalidLines++;
+                }
+            });
+
+            document.getElementById('lineSummary').textContent = `已输入 ${lines.length} 行数据，其中 ${invalidLines} 行不严格符合格式要求`;
+        });
+
+
+        let currentPage = 1;
+        let itemsPerPage = parseInt(document.getElementById("itemsPerPage").value, 10);
+
+        function updatePagination() {
+            itemsPerPage = parseInt(document.getElementById("itemsPerPage").value, 10);
+            currentPage = 1;  // Reset to first page
+            renderPagination();
+            showPage(currentPage);
+        }
+
+        function renderPagination() {
+            const totalItems = document.querySelectorAll(".result-item").length;
+            //if(totalItems>0){
+            //	document.getElementById('pagination').style.display = 'block';
+            //}
+            const totalPages = Math.max(Math.ceil(totalItems / itemsPerPage), 1);  // 确保总页数至少为 1
+            document.getElementById("totalPagesDisplay").textContent = totalPages;
+            document.getElementById("currentPageDisplay").textContent = currentPage;
+
+            // Disable/Enable buttons
+            document.getElementById("prevPage").disabled = currentPage === 1;
+            document.getElementById("firstPage").disabled = currentPage === 1;
+            document.getElementById("lastPage").disabled = currentPage === totalPages;
+            document.getElementById("nextPage").disabled = currentPage === totalPages;
+            document.getElementById("goToPage").max = totalPages;
+            document.getElementById("goToOrder").max = totalItems;
+        }
+
+
+        function showPage(pageNumber) {
+            const allItems = document.querySelectorAll(".result-item");
+            const totalItems = allItems.length;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+            if (pageNumber > totalPages || pageNumber < 1) return;
+
+            currentPage = pageNumber;
+
+            allItems.forEach(item => item.style.display = "none");  // Hide all items
+
+            const start = (pageNumber - 1) * itemsPerPage;
+            const end = Math.min(start + itemsPerPage, totalItems);
+
+            for (let i = start; i < end; i++) {
+                allItems[i].style.display = "block";  // Show items for the current page
+            }
+
+            renderPagination();
+        }
+
+        function goToNextPage() {
+            const totalItems = document.querySelectorAll(".result-item").length;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            if (currentPage < totalPages) {
+                showPage(currentPage + 1);
+            }
+        }
+
+        function goToPreviousPage() {
+            if (currentPage > 1) {
+                showPage(currentPage - 1);
+            }
+        }
+
+        function goToFirstPage() {
+            showPage(1);
+        }
+
+        function goToLastPage() {
+            showPage(Math.ceil((document.querySelectorAll(".result-item")).length / itemsPerPage));
+        }
+
+        function jumpToPage() {
+            const targetPage = parseInt(document.getElementById("goToPage").value, 10);
+            showPage(targetPage);
+        }
+
+        function jumpToOrder() {
+            const totalItems = document.querySelectorAll(".result-item").length;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            const targetOrder = parseInt(document.getElementById("goToOrder").value, 10);
+
+            const tmp = totalItems - targetOrder;
+            const temp = Math.ceil(targetOrder / itemsPerPage);
+
+            showPage(isAscending ? temp : (tmp % itemsPerPage == 0 ? tmp / itemsPerPage + 1 : Math.ceil(tmp / itemsPerPage)));
+
+            //window.location.hash = `resultid${targetOrder}`;
+            //scrollToElement(`resultid${targetOrder}`);
+
+            jump(`resultid${targetOrder}`);
+        }
+
+        function jump(id) {
+            document.querySelector('#' + id).scrollIntoView({ behavior: "smooth" })
+        }
+
+        function scrollToElement(id) {
+            var element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({
+                    behavior: 'smooth' // 平滑滚动效果
+                });
+            }
+        }
+        // 初始化
+        document.addEventListener("DOMContentLoaded", function () {
+            renderPagination();
+            showPage(1);
+        });
+    </script>
 </body>
+
 </html>
