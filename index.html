@@ -2,1099 +2,1134 @@
 <html lang="zh">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>辅助工具</title>
-     <style>
-        body {
-            font-family: Segoe UI, Arial, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-width: 1850px;
-            margin: 0;
-            padding: 0 20px 20px 20px;
-            color: #333;
-        }
-
-        @keyframes typing {
-            from {
-                width: 0;
-            }
-
-            to {
-                width: 100%;
-            }
-        }
-
-        @keyframes blink-caret {
-
-            from,
-            to {
-                border-color: transparent;
-            }
-
-            50% {
-                border-color: #0078D4;
-            }
-        }
-
-        @keyframes colorChange {
-            0% {
-                color: #0078D4;
-            }
-
-            25% {
-                color: #1E1E1E;
-            }
-
-            50% {
-                color: #FF8C00;
-            }
-
-            75% {
-                color: #E81123;
-            }
-
-            100% {
-                color: #0078D4;
-            }
-        }
-
-        textarea {
-			margin-top:15px;
-            width: 100%;
-            height: 120px;
-            box-sizing: border-box;
-            border-radius: 8px;
-            border: none;
-            padding: 10px;
-            font-family: "Microsoft YaHei", "微软雅黑";
-            font-size: 16px;
-            resize: vertical;
-            background-color: rgba(255, 255, 255, 0.9);
-            color: #333;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            transition: box-shadow 0.3s ease, border-color 0.3s ease;
-            overflow: auto;
-        }
-
-        textarea:focus {
-            border-color: #007bff;
-            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
-            outline: none;
-        }
-
-        textarea::placeholder {
-            color: #BBB;
-            opacity: 1;
-            /* Firefox */
-            transition: color 0.3s ease;
-        }
-
-        textarea:focus::placeholder {
-            color: #666;
-        }
-
-        textarea#inputData::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        textarea#inputData::-webkit-scrollbar-thumb {
-            background-color: #0078D4;
-            border-radius: 10px;
-        }
-
-        textarea#inputData::-webkit-scrollbar-track {
-            background-color: #f1f1f1;
-        }
-
-
-        * {
-            scrollbar-width: inherit;
-            scrollbar-color: #0078D4 #f4f4f4;
-        }
-
-        /* Apply light flow effect to processButton */
-        button.processbutton {
-            width: 12.2%;
-            padding: 10px;
-            border: none;
-            border-radius: 6px;
-            background-color: #0078D4;
-            /* Base color for the button */
-            color: #FFFFFF;
-            font-size: 25px;
-            font-family: "Microsoft YaHei", "微软雅黑";
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: background-color 0.2s, transform 0.2s;
-            margin: 5px 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        button.processbutton::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
-            opacity: 0;
-            transition: opacity 0.5s;
-            transform: rotate(-30deg);
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        button.processbutton:hover::before {
-            opacity: 1;
-            animation: light-flow 1.5s infinite linear;
-        }
-
-        button.processbutton:hover {
-            background-color: #005A9E;
-            /* Darker shade for hover effect */
-        }
-
-        @keyframes light-flow {
-            0% {
-                transform: translateX(-100%) rotate(-30deg);
-            }
-
-            100% {
-                transform: translateX(100%) rotate(-30deg);
-            }
-        }
-
-        /* Ensure text is visible over the gradient */
-        button.processbutton span {
-            position: relative;
-            z-index: 2;
-        }
-
-
-        /* Apply neon effect to buttons inside resultItem */
-        button.neon-button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            background-color: #0078D4;
-            /* Same as processButton */
-            color: #FFFFFF;
-            font-family: "Microsoft YaHei", "微软雅黑";
-            font-size: 20px;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.2s, text-shadow 0.2s;
-            margin-right: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        button.neon-button:hover {
-            background-color: #005A9E;
-            /* Same as processButton hover */
-            animation: neon 1.5s infinite alternate;
-        }
-
-        @keyframes neon {
-            from {
-                text-shadow: 0 0 5px #00aaff, 0 0 10px #00aaff, 0 0 15px #00aaff, 0 0 20px #00aaff, 0 0 25px #00aaff, 0 0 30px #00aaff, 0 0 35px #00aaff;
-            }
-
-            to {
-                text-shadow: 0 0 10px #0078D4, 0 0 20px #0078D4, 0 0 30px #0078D4, 0 0 40px #0078D4, 0 0 50px #0078D4, 0 0 60px #0078D4, 0 0 70px #0078D4;
-            }
-        }
-
-
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            background-color: #0078D4;
-            color: #FFFFFF;
-            font-size: 20px;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.2s;
-            margin: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        button:hover {
-            background-color: #005A9E;
-        }
-
-        button:active {
-            background-color: #004578;
-            transform: scale(0.98);
-        }
-
-
-        .result {
-            width: 98%;
-            height: 515px;
-            /* 设置固定高度 */
-            overflow-y: auto;
-            /* 启用垂直滚动 */
-            padding: 10px;
-            border-radius: 18px;
-            border: 1px solid #ccc;
-            background-color: #fff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
-
-        /* 自定义滚动条样式 */
-        .result::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .result::-webkit-scrollbar-thumb {
-            background-color: #0078D4;
-            border-radius: 10px;
-        }
-
-        .result::-webkit-scrollbar-track {
-            background-color: #f1f1f1;
-        }
-
-
-        .result-item {
-            margin: 20px 0;
-            padding: 10px 20px 20px 20px;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .result-item p {
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid #E1E1E1;
-            border-radius: 5px;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: "霞鹜文楷", Arial, "Microsoft YaHei", "微软雅黑";
-            font-size: 20px;
-            color: #3F788F;
-            background-color: #F9F9F9;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .result-item span {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 600;
-            font-family: "霞鹜文楷";
-            font-size: 24px;
-            background: linear-gradient(90deg, #ff6b6b, #f94d6a, #f9c74f, #43aa8b, #4d908e);
-            background-size: 200% auto;
-            /* 控制渐变效果 */
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradient-shift 3s linear infinite;
-            /* 渐变动画 */
-        }
-
-        @keyframes gradient-shift {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            100% {
-                background-position: 100% 50%;
-            }
-        }
-
-        .result-item:hover {
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            transform: translateY(-5px);
-        }
-
-        .buttons {
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
-        }
-
-        .buttons button {
-            margin-right: 10px;
-        }
-
-
-        .status {
-            margin-left: 10px;
-            color: #107C10;
-            font-size: 1.3em;
-            font-weight: 800;
-            font-family: "霞鹜文楷";
-            opacity: 0;
-            /* 初始状态为透明 */
-            transition: opacity 0.5s ease-in-out;
-            /* 渐显效果 */
-        }
-
-
-        .empty-message {
-            font-size: 8em;
-            background-color: #F9F9F9;
-            /*border: 1px solid #E1E1E1;*/
-            border-radius: 8px;
-            padding: 100px 10px 10px 10px;
-            /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
-            margin-top: 10px;
-            margin-bottom: 10px;
-            text-align: center;
-            background: linear-gradient(90deg, #4285F4, #EA4335, #FBBC05, #34A853);
-            /* Google logo colors */
-            animation: slide-in 0.5s ease-out;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        @keyframes slide-in {
-            from {
-                transform: translateX(-100%);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        .line-summary {
-            font-size: 2em;
-            background-color: #F9F9F9;
-            border: 1px solid #E1E1E1;
-            border-radius: 8px;
-            padding: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-top: 10px;
-            margin-bottom: 10px;
-            text-align: left;
-            background: linear-gradient(90deg, #4285F4, #EA4335, #FBBC05, #34A853);
-            /* Google logo colors */
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .result-item.highlighted {
-            border: 2px solid #E81123;
-            /* Highlight color */
-            box-shadow: 0 0 15px rgba(232, 17, 35, 0.5);
-            /* Optional shadow effect */
-        }
-
-        div#pic img {
-            margin: 10px 45%;
-        }
-
-        strong {
-            /* background-color: #FFFF00; 选择一个高亮颜色 */
-            color: #107C10
-                /* 确保文字颜色可读 */
-        }
-
-
-        #backToTop {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
-            border-radius: 50%;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            z-index: 999;
-        }
-
-        #backToTop::before {
-            content: '';
-            border: solid white;
-            border-width: 0 3px 3px 0;
-            display: inline-block;
-            padding: 10px;
-            transform: rotate(-135deg);
-        }
-
-        #backToTop:hover {
-            background: linear-gradient(135deg, #000DFF 0%, #6B73FF 100%);
-        }
-
-        #backToTop:active {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-        }
-
-        .pagination {
-            /*display: flex;*/
-            width: 100%;
-            align-items: center;
-            margin-top: 20px;
-            margin-left: 20px;
-            font-size: 20px;
-            color: #333;
-        }
-
-        .pagination input {
-            width: 100px;
-            text-align: center;
-            margin: 0 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 5px;
-        }
-
-        .pagination button {
-            margin: 0 5px;
-            width: 120px;
-            padding: 6px 12px;
-            border: none;
-            background-color: #0078d4;
-            color: white;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        .pagination button:disabled {
-            background-color: #aaa;
-            cursor: not-allowed;
-        }
-
-        .pagination button:hover:not(:disabled) {
-            background-color: #005a9e;
-        }
-
-        /* Container for the pagination controls */
-        .pagination {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 20px 0;
-            font-family: Segoe UI, Arial, sans-serif;
-        }
-
-
-
-        /* Add spacing and visual elements to pagination text */
-        .pagination span {
-            margin: 0 5px;
-            font-size: 16px;
-            color: #333;
-        }
-
-        /* Style for page number links */
-        .pagination a {
-            margin: 0 5px;
-            text-decoration: none;
-            color: #007bff;
-            transition: color 0.3s ease;
-        }
-
-        .pagination a:hover {
-            color: #0056b3;
-        }
-
-        .text_style {
-            white-space: pre-wrap;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>辅助工具</title>
+  <style>
+    body {
+      font-family: Segoe UI, Arial, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-width: 1850px;
+      margin: 0;
+      padding: 0 20px 20px 20px;
+      color: #333;
+    }
+
+    @keyframes typing {
+      from {
+        width: 0;
+      }
+
+      to {
+        width: 100%;
+      }
+    }
+
+    @keyframes blink-caret {
+
+      from,
+      to {
+        border-color: transparent;
+      }
+
+      50% {
+        border-color: #0078D4;
+      }
+    }
+
+    @keyframes colorChange {
+      0% {
+        color: #0078D4;
+      }
+
+      25% {
+        color: #1E1E1E;
+      }
+
+      50% {
+        color: #FF8C00;
+      }
+
+      75% {
+        color: #E81123;
+      }
+
+      100% {
+        color: #0078D4;
+      }
+    }
+
+    textarea {
+      margin-top: 15px;
+      width: 100%;
+      height: 120px;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: none;
+      padding: 10px;
+      font-family: "Microsoft YaHei", "微软雅黑";
+      font-size: 16px;
+      resize: vertical;
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #333;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s ease, border-color 0.3s ease;
+      overflow: auto;
+    }
+
+    textarea:focus {
+      border-color: #007bff;
+      box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+      outline: none;
+    }
+
+    textarea::placeholder {
+      color: #BBB;
+      opacity: 1;
+      /* Firefox */
+      transition: color 0.3s ease;
+    }
+
+    textarea:focus::placeholder {
+      color: #666;
+    }
+
+    textarea#inputData::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    textarea#inputData::-webkit-scrollbar-thumb {
+      background-color: #0078D4;
+      border-radius: 10px;
+    }
+
+    textarea#inputData::-webkit-scrollbar-track {
+      background-color: #f1f1f1;
+    }
+
+
+    * {
+      scrollbar-width: inherit;
+      scrollbar-color: #0078D4 #f4f4f4;
+    }
+
+    /* Apply light flow effect to processButton */
+    button.processbutton {
+      width: 10.9%;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      background-color: #0078D4;
+      /* Base color for the button */
+      color: #FFFFFF;
+      font-size: 25px;
+      font-family: "Microsoft YaHei", "微软雅黑";
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background-color 0.2s, transform 0.2s;
+      margin: 5px 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    button.processbutton::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+      opacity: 0;
+      transition: opacity 0.5s;
+      transform: rotate(-30deg);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    button.processbutton:hover::before {
+      opacity: 1;
+      animation: light-flow 1.5s infinite linear;
+    }
+
+    button.processbutton:hover {
+      background-color: #005A9E;
+      /* Darker shade for hover effect */
+    }
+
+    @keyframes light-flow {
+      0% {
+        transform: translateX(-100%) rotate(-30deg);
+      }
+
+      100% {
+        transform: translateX(100%) rotate(-30deg);
+      }
+    }
+
+    /* Ensure text is visible over the gradient */
+    button.processbutton span {
+      position: relative;
+      z-index: 2;
+    }
+
+
+    /* Apply neon effect to buttons inside resultItem */
+    button.neon-button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      background-color: #0078D4;
+      /* Same as processButton */
+      color: #FFFFFF;
+      font-family: "Microsoft YaHei", "微软雅黑";
+      font-size: 20px;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.2s, text-shadow 0.2s;
+      margin-right: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    button.neon-button:hover {
+      background-color: #005A9E;
+      /* Same as processButton hover */
+      animation: neon 1.5s infinite alternate;
+    }
+
+    @keyframes neon {
+      from {
+        text-shadow: 0 0 5px #00aaff, 0 0 10px #00aaff, 0 0 15px #00aaff, 0 0 20px #00aaff, 0 0 25px #00aaff, 0 0 30px #00aaff, 0 0 35px #00aaff;
+      }
+
+      to {
+        text-shadow: 0 0 10px #0078D4, 0 0 20px #0078D4, 0 0 30px #0078D4, 0 0 40px #0078D4, 0 0 50px #0078D4, 0 0 60px #0078D4, 0 0 70px #0078D4;
+      }
+    }
+
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      background-color: #0078D4;
+      color: #FFFFFF;
+      font-size: 20px;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.2s;
+      margin: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    button:hover {
+      background-color: #005A9E;
+    }
+
+    button:active {
+      background-color: #004578;
+      transform: scale(0.98);
+    }
+
+
+    .result {
+      width: 98%;
+      height: 515px;
+      /* 设置固定高度 */
+      overflow-y: auto;
+      /* 启用垂直滚动 */
+      padding: 10px;
+      border-radius: 18px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+
+    /* 自定义滚动条样式 */
+    .result::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .result::-webkit-scrollbar-thumb {
+      background-color: #0078D4;
+      border-radius: 10px;
+    }
+
+    .result::-webkit-scrollbar-track {
+      background-color: #f1f1f1;
+    }
+
+
+    .result-item {
+      margin: 20px 0;
+      padding: 10px 20px 20px 20px;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .result-item p {
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #E1E1E1;
+      border-radius: 5px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: "霞鹜文楷", Arial, "Microsoft YaHei", "微软雅黑";
+      font-size: 20px;
+      color: #3F788F;
+      background-color: #F9F9F9;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .result-item span {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+      font-family: "霞鹜文楷";
+      font-size: 24px;
+      background: linear-gradient(90deg, #ff6b6b, #f94d6a, #f9c74f, #43aa8b, #4d908e);
+      background-size: 200% auto;
+      /* 控制渐变效果 */
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradient-shift 3s linear infinite;
+      /* 渐变动画 */
+    }
+
+    @keyframes gradient-shift {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      100% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .result-item:hover {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      transform: translateY(-5px);
+    }
+
+    .buttons {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .buttons button {
+      margin-right: 10px;
+    }
+
+
+    .status {
+      margin-left: 10px;
+      color: #107C10;
+      font-size: 1.3em;
+      font-weight: 800;
+      font-family: "霞鹜文楷";
+      opacity: 0;
+      /* 初始状态为透明 */
+      transition: opacity 0.5s ease-in-out;
+      /* 渐显效果 */
+    }
+
+
+    .empty-message {
+      font-size: 8em;
+      background-color: #F9F9F9;
+      /*border: 1px solid #E1E1E1;*/
+      border-radius: 8px;
+      padding: 100px 10px 10px 10px;
+      /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
+      margin-top: 10px;
+      margin-bottom: 10px;
+      text-align: center;
+      background: linear-gradient(90deg, #4285F4, #EA4335, #FBBC05, #34A853);
+      /* Google logo colors */
+      animation: slide-in 0.5s ease-out;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    @keyframes slide-in {
+      from {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .line-summary {
+      font-size: 2em;
+      background-color: #F9F9F9;
+      border: 1px solid #E1E1E1;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-top: 10px;
+      margin-bottom: 10px;
+      text-align: left;
+      background: linear-gradient(90deg, #4285F4, #EA4335, #FBBC05, #34A853);
+      /* Google logo colors */
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .result-item.highlighted {
+      border: 2px solid #E81123;
+      /* Highlight color */
+      box-shadow: 0 0 15px rgba(232, 17, 35, 0.5);
+      /* Optional shadow effect */
+    }
+
+    div#pic img {
+      margin: 10px 45%;
+    }
+
+    strong {
+      /* background-color: #FFFF00; 选择一个高亮颜色 */
+      color: #107C10
+        /* 确保文字颜色可读 */
+    }
+
+
+    #backToTop {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+      border-radius: 50%;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 999;
+    }
+
+    #backToTop::before {
+      content: '';
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      display: inline-block;
+      padding: 10px;
+      transform: rotate(-135deg);
+    }
+
+    #backToTop:hover {
+      background: linear-gradient(135deg, #000DFF 0%, #6B73FF 100%);
+    }
+
+    #backToTop:active {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .pagination {
+      /*display: flex;*/
+      width: 100%;
+      align-items: center;
+      margin-top: 20px;
+      margin-left: 20px;
+      font-size: 20px;
+      color: #333;
+    }
+
+    .pagination input {
+      width: 100px;
+      text-align: center;
+      margin: 0 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 5px;
+    }
+
+    .pagination button {
+      margin: 0 5px;
+      width: 120px;
+      padding: 6px 12px;
+      border: none;
+      background-color: #0078d4;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .pagination button:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
+    }
+
+    .pagination button:hover:not(:disabled) {
+      background-color: #005a9e;
+    }
+
+    /* Container for the pagination controls */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px 0;
+      font-family: Segoe UI, Arial, sans-serif;
+    }
+
+
+
+    /* Add spacing and visual elements to pagination text */
+    .pagination span {
+      margin: 0 5px;
+      font-size: 16px;
+      color: #333;
+    }
+
+    /* Style for page number links */
+    .pagination a {
+      margin: 0 5px;
+      text-decoration: none;
+      color: #007bff;
+      transition: color 0.3s ease;
+    }
+
+    .pagination a:hover {
+      color: #0056b3;
+    }
+
+    .text_style {
+      white-space: pre-wrap;
+    }
+  </style>
 </head>
 
 <body>
-    <textarea id="inputData" class="text_style" placeholder="请输入一行或多行订单数据    数据格式为 「店铺 原始单号 物流单号(双地址及是否退款、通知退款非必要)」 ">
+  <textarea id="inputData" class="text_style" placeholder="请输入一行或多行订单数据    数据格式为 「店铺 原始单号 物流单号(双地址及是否退款、通知退款非必要)」    不符合对应格式要求的订单数据不会被处理....  
+数据示例：		   
+                     沃尔玛  100200300    123456789              |   数据格式非 「店铺 原始单号 物流单号」 则为不严格符合格式要求        
+
+使用方法：根据所需功能点击相应按钮        ">
     </textarea>
-    <div id="lineSummary" class="line-summary">已输入 0 行数据，其中 0 行不严格符合格式要求</div>
-    <button id="processButton1" class="processbutton" onclick="processData1()">拆单</button>
-    <button id="processButton2" class="processbutton" onclick="processData2()">双地址</button>
-    <button id="processButton3" class="processbutton" onclick="processData3()">单号是否一致</button>
-    <button id="processButton4" class="processbutton" onclick="processData4()">换单号</button>
-    <button id="processButton5" class="processbutton" onclick="processData5()">是否退款</button>
-    <button id="processButton6" class="processbutton" onclick="processData6()">通知退款</button>
-    <button id="processButton7" class="processbutton" onclick="processData7()">求和</button>
-    <button id="processButton8" class="processbutton" onclick="processData8()">重命名</button>
-    <div id="pagination" class="pagination">
-        &nbsp;&nbsp;<button id="isass" onclick="isAscending = true;processData1()">升序</button>
-        <button id="isnotass" onclick="isAscending = false;processData1()">降序</button> &nbsp;&nbsp;每页 <input
-            type="number" id="itemsPerPage" value="50" min="1" max="9999" onchange="updatePagination()" /> 单，当前第 <span
-            id="currentPageDisplay">1</span>/<span id="totalPagesDisplay">1</span> 页 &nbsp;&nbsp; &nbsp;&nbsp;<button
-            id="firstPage" onclick="goToFirstPage()">首页</button>
-        <button id="prevPage" onclick="goToPreviousPage()">上一页</button>
-        <button id="nextPage" onclick="goToNextPage()">下一页</button>
-        <button id="lastPage" onclick="goToLastPage()">末页</button> &nbsp;&nbsp; <input id="goToPage" value="1" min="1"
-            max="9999" onchange="jumpToPage()" /> 页 <button id="j2p" onclick="jumpToPage()">Go</button> &nbsp;&nbsp;
-        <input id="goToOrder" value="1" min="1" max="9999" onchange="jumpToOrder()" /> 行 <button id="j2o"
-            onclick="jumpToOrder()">Go</button>
-    </div>
-    <div class="result" id="result">
-        <button id="backToTop" class="scroll-to-top-btn"></button>
-    </div>
-
-
-    <script id="mainscript">
-        window.onload = function () {
-            document.getElementById('inputData').value = '';
-            document.getElementById('pagination').style.display = 'block';
-            //new cursoreffects.fairyDustCursor();
-        };
-
-        let isAscending = true; // Default sorting order
-
-        function enableButtons(isenable, buttons) {
-            buttons.forEach(buttonId => {
-                document.getElementById(buttonId).disabled = isenable;
-            });
-        }
-
-        function enablebutton1() {
-            enableButtons(0, ["j2p", "j2o", "itemsPerPage", "goToPage", "goToOrder", "isass", "isnotass"]);
-        }
-
-        function enablebutton2() {
-            enableButtons(1, ["prevPage", "firstPage", "isass", "isnotass", "j2p", "j2o", "itemsPerPage", "goToPage", "goToOrder", "isass", "isnotass"]);
-        }
-
-        function getCommonElements() {
-            const input = document.getElementById('inputData').value.trim();
-            const resultDiv = document.getElementById('result');
-            const lineSummaryDiv = document.getElementById('lineSummary');
-
-            // 动态创建 backToTop 元素（如果不存在）
-            let backToTop = document.getElementById('backToTop');
-            if (!backToTop) {
-                backToTop = document.createElement('button');
-                backToTop.id = 'backToTop';
-                backToTop.className = 'scroll-to-top-btn';
-                backToTop.style.display = 'none'; // 初始隐藏
-
-                // 绑定点击事件
-                backToTop.addEventListener('click', function () {
-                    resultDiv.scrollTo({ top: 0, behavior: 'smooth' }); // 平滑滚动到顶部
-                });
-
-                resultDiv.appendChild(backToTop); // 添加到 result 区域
-            }
-
-            return { input, resultDiv, lineSummaryDiv, backToTop };
-        }
-
-        function handleEmptyInput(input, resultDiv, lineSummaryDiv) {
-            if (!input) {
-                resultDiv.innerHTML = '<div class="empty-message">无数据输入</div>';
-                lineSummaryDiv.textContent = '已输入 0 行数据，其中 0 行不符合格式要求';
-                totalPages = 1;
-                currentPage = 1; // 重置为第一页
-                return true; // 表示输入为空，不需要继续执行后续逻辑
-            }
-            return false; // 表示输入不为空，可以继续执行后续逻辑
-        }
-
-        function createResultItemWithElements(includeAllElements = true) {
-            const buttonContainer = document.createElement('div');
-            buttonContainer.className = 'buttons';
-
-            const p = document.createElement('p');
-
-            if (includeAllElements) {
-                const resultItem = document.createElement('div');
-                resultItem.className = 'result-item';
-
-                const statusDiv = document.createElement('div');
-                statusDiv.className = 'status';
-
-                return { resultItem, statusDiv, buttonContainer, p };
-            } else {
-                return { buttonContainer, p };
-            }
-        }
-
-        function createCopyButton(resultItem, textToCopy, buttonText, successMessage, highlightTextContent) {
-            const button = document.createElement('button');
-            button.textContent = buttonText;
-            button.className = 'neon-button';
-            button.onclick = () => {
-                clearAllStatus();
-                clearHighlight();
-                copyToClipboard(textToCopy);
-                fadeStatus(resultItem, successMessage);
-                resultItem.classList.add('highlighted');
-                highlightText(resultItem, highlightTextContent, 'strong');
-            };
-            return button;
-        }
-
-        function appendResultItem(resultDiv, resultItem, buttonContainer, statusDiv, p, backToTop, lines, invalidLines1, lineSummaryDiv) {
-            buttonContainer.appendChild(statusDiv);
-            resultItem.appendChild(p);
-            resultItem.appendChild(buttonContainer);
-            resultDiv.appendChild(resultItem);
-            resultDiv.appendChild(backToTop);
-
-            lineSummaryDiv.textContent = `已输入 ${lines.length} 行数据，其中 ${invalidLines1} 行不严格符合格式要求`;
-            renderPagination();
-            showPage(1);  // 处理数据后显示第一页
-        }
-
-        function processLineForData(parts, resultItem, serialNumber, statusDiv) {
-            const { buttonContainer, p } = createResultItemWithElements(false);
-
-            if (parts.length === 3) {
-                const A = parts[0];
-                const B = parts[1];
-                const C = parts[2];
-                const processedLine = `${A}\t${B}\n\n拆单发货\n${C}\n`;
-                p.textContent = processedLine;
-
-                const copyABButton = createCopyButton(resultItem, `${A}\t${B}\t${C}`, '复制店铺单号', '复制店铺单号成功,粘贴到拆单表', [A, B, C]);
-                const copyFullButton = createCopyButton(resultItem, processedLine, '复制全部信息', '复制全部信息成功,粘贴到电商群', processedLine);
-                buttonContainer.appendChild(copyABButton);
-                buttonContainer.appendChild(copyFullButton);
-            } else {
-                p.textContent = '数据格式不符合要求\n格式应为 「店铺 原始单号 物流单号」';
-            }
-
-            buttonContainer.appendChild(statusDiv);
-            resultItem.appendChild(serialNumber);
-            resultItem.appendChild(p);
-            resultItem.appendChild(buttonContainer);
-            return resultItem;
-        }
-
-
-        function processData1() {
-            enablebutton1();
-            const { input, resultDiv, lineSummaryDiv, backToTop } = getCommonElements();
-            resultDiv.innerHTML = '';
-
-            if (handleEmptyInput(input, resultDiv, lineSummaryDiv)) {
-                renderPagination();
-                return;
-            }
-
-            const lines = input.split('\n').filter(line => line.trim() !== ''); // 过滤掉空行
-            const sortedLines = isAscending ? lines : lines.slice().reverse();
-            let invalidLines = 0;
-
-            sortedLines.forEach((line, index) => {
-                const parts = line.trim().split(/\s+/);
-                const resultItem = document.createElement('div');
-                resultItem.className = 'result-item';
-                resultItem.id = isAscending ? `resultid${index + 1}` : `resultid${lines.length - index}`;
-
-                const serialNumber = document.createElement('span');
-                serialNumber.textContent = isAscending ? `${index + 1}` : `${lines.length - index}`;
-
-                const statusDiv = document.createElement('div');
-                statusDiv.id = isAscending ? `status${index + 1}` : `status${lines.length - index}`;
-                statusDiv.className = 'status';
-
-                if (parts.length !== 3) {
-                    invalidLines++;
-                }
-
-                // 调用 processLineForData1 处理每一行
-                const processedResultItem = processLineForData(parts, resultItem, serialNumber, statusDiv);
-                resultDiv.appendChild(processedResultItem);
-            });
-
-            resultDiv.appendChild(backToTop);
-            lineSummaryDiv.textContent = `已输入 ${lines.length} 行数据，其中 ${invalidLines} 行不严格符合格式要求`;
-            renderPagination();
-            showPage(1); // 处理数据后显示第一页
-        }
-
-        function processDataCommon(config) {
-            enablebutton2();
-            const { input, resultDiv, lineSummaryDiv, backToTop } = getCommonElements();
-            resultDiv.innerHTML = '';
-
-            if (handleEmptyInput(input, resultDiv, lineSummaryDiv)) {
-                return;
-            }
-
-            const lines = input.split('\n').filter(line => line.trim() !== ''); // 过滤掉空行
-            const counters = { invalidLines1: 0, invalidLines2: 0 }; // 使用对象包装计数器
-
-            // 只创建一个 resultItem
-            const { resultItem, statusDiv, buttonContainer, p } = createResultItemWithElements();
-            let processedLine = ""; // 初始为空
-
-            lines.forEach((line, index) => {
-                const parts = line.trim().split(/\s+/);
-                if (config.processLine) {
-                    // 更新 processedLine 和 counters
-                    processedLine = config.processLine(parts, processedLine, p, counters);
-                }
-            });
-
-            if (config.finalCheck) {
-                processedLine = config.finalCheck(lines, counters, p, processedLine, config.initialText);
-            }
-            p.textContent = processedLine;
-
-            // 使用新的 createCopyButton 函数
-            const copyButton = createCopyButton(resultItem, processedLine, '复制', '复制成功', processedLine);
-            buttonContainer.appendChild(copyButton);
-
-            appendResultItem(resultDiv, resultItem, buttonContainer, statusDiv, p, backToTop, lines, counters.invalidLines1, lineSummaryDiv);
-        }
-
-
-
-        // createProcessDataConfig 完整实现
-        function createProcessDataConfig(config) {
-            const {
-                initialText = "",
-                placeholder = "",
-                checkPartsLength2 = false,
-                dynamicInitialText = false, // 新增动态文本开关
-                useComplexFinalCheck = false
-            } = config;
-
-            return {
-                processLine: (parts, processedLine, p, counters) => {
-                    if (parts.length === 3) {
-                        const A = parts[0];
-                        const B = parts[1];
-                        const C = parts[2];
-                        processedLine += `\n${A}\n${B}\n${placeholder}${C}\n`;
-                    }
-                    if (checkPartsLength2 && parts.length === 2) {
-                        const A = parts[0];
-                        const B = parts[1];
-                        processedLine += `\n${A}\n${B}\n`;
-                        counters.invalidLines2++;
-                    }
-                    if (parts.length !== 3) {
-                        counters.invalidLines1++;
-                    }
-                    return processedLine;
-                },
-                finalCheck: (lines, counters, p, processedLine) => {
-                    let finalInitialText = initialText;
-
-                    // 动态生成初始文本
-                    if (dynamicInitialText) {
-                        const validLines = lines.length - counters.invalidLines1 + counters.invalidLines2;
-                        finalInitialText = validLines > 0
-                            ? (validLines === 1 ? "这单有退款吗\n" : `这${validLines}单有退款吗\n`)
-                            : "";
-                    }
-
-                    // 保留原有校验逻辑
-                    if (useComplexFinalCheck) {
-                        if (lines.length === counters.invalidLines1 - counters.invalidLines2) {
-                            processedLine = '数据不符合格式要求\n格式应为 「店铺 原始单号 物流单号(可选)」';
-                        } else {
-                            processedLine = finalInitialText + processedLine;
-                        }
-                    } else {
-                        if (lines.length === counters.invalidLines1) {
-                            processedLine = '数据不符合格式要求\n格式应为 「店铺 原始单号 物流单号」';
-                        } else {
-                            processedLine = finalInitialText + processedLine;
-                        }
-                    }
-
-                    p.textContent = processedLine;
-                    return processedLine;
-                }
-            };
-        }
-
-        function processData2() {
-            processDataCommon(createProcessDataConfig({ initialText: "双地址\n", checkPartsLength2: true, useComplexFinalCheck: true }));
-        }
-
-        function processData3() {
-            processDataCommon(createProcessDataConfig({ initialText: "物流单号若与后台不一致，后台改为如下对应的物流单号\n" }));
-        }
-
-        function processData4() {
-            processDataCommon(createProcessDataConfig({ initialText: "后台换一下\n", placeholder: "物流单号换为\n" }));
-        }
-
-        function processData5() {
-            processDataCommon(createProcessDataConfig({ checkPartsLength2: true, dynamicInitialText: true, useComplexFinalCheck: true }));
-        }
-
-        function processData6() {
-            processDataCommon(createProcessDataConfig({ initialText: "物流发不了,通知退款\n", checkPartsLength2: true, useComplexFinalCheck: true }));
-        }
-
-        function processDataCommonWithLines(processLines, generateDisplayText) {
-            enablebutton2();
-            const { input, resultDiv, lineSummaryDiv, backToTop } = getCommonElements();
-            resultDiv.innerHTML = '';
-
-            if (handleEmptyInput(input, resultDiv, lineSummaryDiv)) {
-                return;
-            }
-
-            const lines = input.split('\n').filter(line => line.trim() !== '');
-            const processedValue = processLines(lines);
-
-            const { resultItem, statusDiv, buttonContainer, p } = createResultItemWithElements();
-            p.textContent = generateDisplayText(processedValue);
-
-            const copyButton = createCopyButton(resultItem, processedValue, '复制结果', '复制成功', processedValue);
-            buttonContainer.appendChild(copyButton);
-
-            appendResultItem(resultDiv, resultItem, buttonContainer, statusDiv, p, backToTop, lines, 0, lineSummaryDiv);
-        }
-
-        function processData7() {
-            processDataCommonWithLines(
-                lines => lines.reduce((sum, line) => sum + (parseFloat(line.trim()) || 0), 0),
-                sum => `数字之和为：${sum}`
-            );
-        }
-
-        function processData8() {
-            processDataCommonWithLines(
-                lines => lines.join('_'),
-                result => `重命名结果为：${result}`
-            );
-        }
-
-        // ... 保留其他现有代码不变 ...
-
-        // 更新按钮显示状态的函数
-        function updateScrollButtonVisibility(result, backToTop) {
-            if (result.scrollTop > 20) {
-                backToTop.style.display = 'flex';
-            } else {
-                backToTop.style.display = 'none';
-            }
-        }
-
-        // 监听滚动事件，以便实时更新按钮的显示状态
-        document.getElementById('result').addEventListener('scroll', function () {
-            var result = document.getElementById('result');
-            var backToTop = document.getElementById('backToTop');
-            updateScrollButtonVisibility(result, backToTop);
+  <div id="lineSummary" class="line-summary">已输入 0 行数据，其中 0 行不严格符合格式要求</div>
+  <button id="processButton1" class="processbutton" onclick="processData1()">拆单</button>
+  <button id="processButton2" class="processbutton" onclick="processData2()">双地址</button>
+  <button id="processButton3" class="processbutton" onclick="processData3()">单号是否一致</button>
+  <button id="processButton4" class="processbutton" onclick="processData4()">换单号</button>
+  <button id="processButton5" class="processbutton" onclick="processData5()">是否退款</button>
+  <button id="processButton6" class="processbutton" onclick="processData6()">通知退款</button>
+  <button id="processButton7" class="processbutton" onclick="processData7()">求和</button>
+  <button id="processButton8" class="processbutton" onclick="processData8()">重命名</button>
+  <button id="processButton9" class="processbutton" onclick="processData9()">单量统计</button>
+  <div id="pagination" class="pagination">
+    &nbsp;&nbsp;<button id="isass" onclick="isAscending = true;processData1()">升序</button>
+    <button id="isnotass" onclick="isAscending = false;processData1()">降序</button> &nbsp;&nbsp;每页 <input type="number"
+      id="itemsPerPage" value="50" min="1" max="9999" onchange="updatePagination()" /> 单，当前第 <span
+      id="currentPageDisplay">1</span>/<span id="totalPagesDisplay">1</span> 页 &nbsp;&nbsp; &nbsp;&nbsp;<button
+      id="firstPage" onclick="goToFirstPage()">首页</button>
+    <button id="prevPage" onclick="goToPreviousPage()">上一页</button>
+    <button id="nextPage" onclick="goToNextPage()">下一页</button>
+    <button id="lastPage" onclick="goToLastPage()">末页</button> &nbsp;&nbsp; <input id="goToPage" value="1" min="1"
+      max="9999" onchange="jumpToPage()" /> 页 <button id="j2p" onclick="jumpToPage()">Go</button> &nbsp;&nbsp;
+    <input id="goToOrder" value="1" min="1" max="9999" onchange="jumpToOrder()" /> 行 <button id="j2o"
+      onclick="jumpToOrder()">Go</button>
+  </div>
+  <div class="result" id="result">
+    <button id="backToTop" class="scroll-to-top-btn"></button>
+  </div>
+
+
+
+  <script id="mainscript">
+    window.onload = function () {
+      document.getElementById('inputData').value = '';
+      document.getElementById('pagination').style.display = 'block';
+      new cursoreffects.fairyDustCursor();
+    };
+
+    let isAscending = true; // Default sorting order
+
+    function enableButtons(isenable, buttons) {
+      buttons.forEach(buttonId => {
+        document.getElementById(buttonId).disabled = isenable;
+      });
+    }
+
+    function enablebutton1() {
+      enableButtons(0, ["j2p", "j2o", "itemsPerPage", "goToPage", "goToOrder", "isass", "isnotass"]);
+    }
+
+    function enablebutton2() {
+      enableButtons(1, ["prevPage", "firstPage", "isass", "isnotass", "j2p", "j2o", "itemsPerPage", "goToPage", "goToOrder", "isass", "isnotass"]);
+    }
+
+    function getCommonElements() {
+      const input = document.getElementById('inputData').value.trim();
+      const resultDiv = document.getElementById('result');
+      const lineSummaryDiv = document.getElementById('lineSummary');
+
+      // 动态创建 backToTop 元素（如果不存在）
+      let backToTop = document.getElementById('backToTop');
+      if (!backToTop) {
+        backToTop = document.createElement('button');
+        backToTop.id = 'backToTop';
+        backToTop.className = 'scroll-to-top-btn';
+        backToTop.style.display = 'none'; // 初始隐藏
+
+        // 绑定点击事件
+        backToTop.addEventListener('click', function () {
+          resultDiv.scrollTo({ top: 0, behavior: 'smooth' }); // 平滑滚动到顶部
         });
 
-        // 绑定点击事件，点击按钮时滚动到顶部
-        document.getElementById('backToTop').addEventListener('click', function () {
-            var result = document.getElementById('result');
+        resultDiv.appendChild(backToTop); // 添加到 result 区域
+      }
 
-            // 使用 scrollTo 方法平滑滚动到顶部
-            result.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
+      return { input, resultDiv, lineSummaryDiv, backToTop };
+    }
 
-        function highlightText(resultItem, text, tagName) {
-            const p = resultItem.querySelector('p');
-            let originalText = p.textContent;
-            if (Array.isArray(text)) {
-                text.forEach((part) => {
-                    const escapedPart = part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                    const regex = new RegExp(escapedPart, 'g');
-                    originalText = originalText.replace(regex, `<${tagName}>${part}</${tagName}>`);
-                });
+    function handleEmptyInput(input, resultDiv, lineSummaryDiv) {
+      if (!input) {
+        resultDiv.innerHTML = '<div class="empty-message">无数据输入</div>';
+        lineSummaryDiv.textContent = '已输入 0 行数据，其中 0 行不符合格式要求';
+        totalPages = 1;
+        currentPage = 1; // 重置为第一页
+        return true; // 表示输入为空，不需要继续执行后续逻辑
+      }
+      return false; // 表示输入不为空，可以继续执行后续逻辑
+    }
+
+    function createResultItemWithElements(includeAllElements = true) {
+      const buttonContainer = document.createElement('div');
+      buttonContainer.className = 'buttons';
+
+      const p = document.createElement('p');
+
+      if (includeAllElements) {
+        const resultItem = document.createElement('div');
+        resultItem.className = 'result-item';
+
+        const statusDiv = document.createElement('div');
+        statusDiv.className = 'status';
+
+        return { resultItem, statusDiv, buttonContainer, p };
+      } else {
+        return { buttonContainer, p };
+      }
+    }
+
+    function createCopyButton(resultItem, textToCopy, buttonText, successMessage, highlightTextContent) {
+      const button = document.createElement('button');
+      button.textContent = buttonText;
+      button.className = 'neon-button';
+      button.onclick = () => {
+        clearAllStatus();
+        clearHighlight();
+        copyToClipboard(textToCopy);
+        fadeStatus(resultItem, successMessage);
+        resultItem.classList.add('highlighted');
+        highlightText(resultItem, highlightTextContent, 'strong');
+      };
+      return button;
+    }
+
+    function appendResultItem(resultDiv, resultItem, buttonContainer, statusDiv, p, backToTop, lines, invalidLines1, lineSummaryDiv) {
+      buttonContainer.appendChild(statusDiv);
+      resultItem.appendChild(p);
+      resultItem.appendChild(buttonContainer);
+      resultDiv.appendChild(resultItem);
+      resultDiv.appendChild(backToTop);
+
+      lineSummaryDiv.textContent = `已输入 ${lines.length} 行数据，其中 ${invalidLines1} 行不严格符合格式要求`;
+      renderPagination();
+      showPage(1);  // 处理数据后显示第一页
+    }
+
+    function processLineForData(parts, resultItem, serialNumber, statusDiv) {
+      const { buttonContainer, p } = createResultItemWithElements(false);
+
+      if (parts.length === 3) {
+        const A = parts[0];
+        const B = parts[1];
+        const C = parts[2];
+        const processedLine = `${A}\t${B}\n\n拆单发货\n${C}\n`;
+        p.textContent = processedLine;
+
+        const copyABButton = createCopyButton(resultItem, `${A}\t${B}\t${C}`, '复制店铺单号', '复制店铺单号成功,粘贴到拆单表', [A, B, C]);
+        const copyFullButton = createCopyButton(resultItem, processedLine, '复制全部信息', '复制全部信息成功,粘贴到电商群', processedLine);
+        buttonContainer.appendChild(copyABButton);
+        buttonContainer.appendChild(copyFullButton);
+      } else {
+        p.textContent = '数据格式不符合要求\n格式应为 「店铺 原始单号 物流单号」';
+      }
+
+      buttonContainer.appendChild(statusDiv);
+      resultItem.appendChild(serialNumber);
+      resultItem.appendChild(p);
+      resultItem.appendChild(buttonContainer);
+      return resultItem;
+    }
+
+
+    function processData1() {
+      enablebutton1();
+      const { input, resultDiv, lineSummaryDiv, backToTop } = getCommonElements();
+      resultDiv.innerHTML = '';
+
+      if (handleEmptyInput(input, resultDiv, lineSummaryDiv)) {
+        renderPagination();
+        return;
+      }
+
+      const lines = input.split('\n').filter(line => line.trim() !== ''); // 过滤掉空行
+      const sortedLines = isAscending ? lines : lines.slice().reverse();
+      let invalidLines = 0;
+
+      sortedLines.forEach((line, index) => {
+        const parts = line.trim().split(/\s+/);
+        const resultItem = document.createElement('div');
+        resultItem.className = 'result-item';
+        resultItem.id = isAscending ? `resultid${index + 1}` : `resultid${lines.length - index}`;
+
+        const serialNumber = document.createElement('span');
+        serialNumber.textContent = isAscending ? `${index + 1}` : `${lines.length - index}`;
+
+        const statusDiv = document.createElement('div');
+        statusDiv.id = isAscending ? `status${index + 1}` : `status${lines.length - index}`;
+        statusDiv.className = 'status';
+
+        if (parts.length !== 3) {
+          invalidLines++;
+        }
+
+        // 调用 processLineForData1 处理每一行
+        const processedResultItem = processLineForData(parts, resultItem, serialNumber, statusDiv);
+        resultDiv.appendChild(processedResultItem);
+      });
+
+      resultDiv.appendChild(backToTop);
+      lineSummaryDiv.textContent = `已输入 ${lines.length} 行数据，其中 ${invalidLines} 行不严格符合格式要求`;
+      renderPagination();
+      showPage(1); // 处理数据后显示第一页
+    }
+
+    function processDataCommon(config) {
+      enablebutton2();
+      const { input, resultDiv, lineSummaryDiv, backToTop } = getCommonElements();
+      resultDiv.innerHTML = '';
+
+      if (handleEmptyInput(input, resultDiv, lineSummaryDiv)) {
+        return;
+      }
+
+      const lines = input.split('\n').filter(line => line.trim() !== ''); // 过滤掉空行
+      const counters = { invalidLines1: 0, invalidLines2: 0 }; // 使用对象包装计数器
+
+      // 只创建一个 resultItem
+      const { resultItem, statusDiv, buttonContainer, p } = createResultItemWithElements();
+      let processedLine = ""; // 初始为空
+
+      lines.forEach((line, index) => {
+        const parts = line.trim().split(/\s+/);
+        if (config.processLine) {
+          // 更新 processedLine 和 counters
+          processedLine = config.processLine(parts, processedLine, p, counters);
+        }
+      });
+
+      if (config.finalCheck) {
+        processedLine = config.finalCheck(lines, counters, p, processedLine, config.initialText);
+      }
+      p.textContent = processedLine;
+
+      // 使用新的 createCopyButton 函数
+      const copyButton = createCopyButton(resultItem, processedLine, '复制', '复制成功', processedLine);
+      buttonContainer.appendChild(copyButton);
+
+      appendResultItem(resultDiv, resultItem, buttonContainer, statusDiv, p, backToTop, lines, counters.invalidLines1, lineSummaryDiv);
+    }
+
+
+
+    // createProcessDataConfig 完整实现
+    function createProcessDataConfig(config) {
+      const {
+        initialText = "",
+        placeholder = "",
+        checkPartsLength2 = false,
+        dynamicInitialText = false, // 新增动态文本开关
+        useComplexFinalCheck = false
+      } = config;
+
+      return {
+        processLine: (parts, processedLine, p, counters) => {
+          if (parts.length === 3) {
+            const A = parts[0];
+            const B = parts[1];
+            const C = parts[2];
+            processedLine += `\n${A}\n${B}\n${placeholder}${C}\n`;
+          }
+          if (checkPartsLength2 && parts.length === 2) {
+            const A = parts[0];
+            const B = parts[1];
+            processedLine += `\n${A}\n${B}\n`;
+            counters.invalidLines2++;
+          }
+          if (parts.length !== 3) {
+            counters.invalidLines1++;
+          }
+          return processedLine;
+        },
+        finalCheck: (lines, counters, p, processedLine) => {
+          let finalInitialText = initialText;
+
+          // 动态生成初始文本
+          if (dynamicInitialText) {
+            const validLines = lines.length - counters.invalidLines1 + counters.invalidLines2;
+            finalInitialText = validLines > 0
+              ? (validLines === 1 ? "这单有退款吗\n" : `这${validLines}单有退款吗\n`)
+              : "";
+          }
+
+          // 保留原有校验逻辑
+          if (useComplexFinalCheck) {
+            if (lines.length === counters.invalidLines1 - counters.invalidLines2) {
+              processedLine = '数据不符合格式要求\n格式应为 「店铺 原始单号 物流单号(可选)」';
             } else {
-                const escapedText = text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                const regex = new RegExp(escapedText, 'g');
-                originalText = originalText.replace(regex, `<${tagName}>${text}</${tagName}>`);
+              processedLine = finalInitialText + processedLine;
             }
-            p.innerHTML = originalText;
-        }
-
-
-        function fadeStatus(resultItem, message) {
-            const buttonContainer = resultItem.querySelector('.buttons');
-
-            // 删除现有的 statusDiv
-            const existingStatusDiv = buttonContainer.querySelector('.status');
-            if (existingStatusDiv) {
-                buttonContainer.removeChild(existingStatusDiv);
+          } else {
+            if (lines.length === counters.invalidLines1) {
+              processedLine = '数据不符合格式要求\n格式应为 「店铺 原始单号 物流单号」';
+            } else {
+              processedLine = finalInitialText + processedLine;
             }
+          }
 
-            // 创建新的 statusDiv
-            const statusDiv = document.createElement('div');
-            statusDiv.className = 'status';
-            statusDiv.textContent = message;
-
-            // 添加渐显效果
-            statusDiv.style.opacity = 0; // Set initial opacity to 0
-            buttonContainer.appendChild(statusDiv);
-
-            // Trigger the fade-in effect
-            setTimeout(() => {
-                statusDiv.style.opacity = 1; // Set opacity to 1 for fade-in effect
-            }, 10); // Short delay to ensure reflow
+          p.textContent = processedLine;
+          return processedLine;
         }
+      };
+    }
 
-        function clearHighlight() {
-            const resultItems = document.querySelectorAll('.result-item');
-            resultItems.forEach(item => {
-                const p = item.querySelector('p');
-                if (p) {
-                    // 移除所有 HTML 标签，只保留文本内容
-                    p.textContent = p.textContent.replace(/<[^>]*>/g, '');
-                }
-                item.classList.remove('highlighted');
-            });
+    function processData2() {
+      processDataCommon(createProcessDataConfig({ initialText: "双地址\n", checkPartsLength2: true, useComplexFinalCheck: true }));
+    }
+
+    function processData3() {
+      processDataCommon(createProcessDataConfig({ initialText: "物流单号若与后台不一致，后台改为如下对应的物流单号\n" }));
+    }
+
+    function processData4() {
+      processDataCommon(createProcessDataConfig({ initialText: "后台换一下\n", placeholder: "物流单号换为\n" }));
+    }
+
+    function processData5() {
+      processDataCommon(createProcessDataConfig({ checkPartsLength2: true, dynamicInitialText: true, useComplexFinalCheck: true }));
+    }
+
+    function processData6() {
+      processDataCommon(createProcessDataConfig({ initialText: "物流发不了,通知退款\n", checkPartsLength2: true, useComplexFinalCheck: true }));
+    }
+
+    function processDataCommonWithLines(processLines, generateDisplayText) {
+      enablebutton2();
+      const { input, resultDiv, lineSummaryDiv, backToTop } = getCommonElements();
+      resultDiv.innerHTML = '';
+
+      if (handleEmptyInput(input, resultDiv, lineSummaryDiv)) {
+        return;
+      }
+
+      const lines = input.split('\n').filter(line => line.trim() !== '');
+      const processedValue = processLines(lines);
+
+      const { resultItem, statusDiv, buttonContainer, p } = createResultItemWithElements();
+      const displayText = generateDisplayText(processedValue);
+      p.textContent = displayText;
+
+      // 确保复制的是格式化后的文本而不是原始对象
+      const copyButton = createCopyButton(
+        resultItem,
+        typeof displayText === 'string' ? displayText : JSON.stringify(displayText),
+        '复制结果',
+        '复制成功',
+        displayText
+      );
+      buttonContainer.appendChild(copyButton);
+
+      appendResultItem(resultDiv, resultItem, buttonContainer, statusDiv, p, backToTop, lines, 0, lineSummaryDiv);
+    }
+
+    function processData7() {
+      processDataCommonWithLines(
+        lines => lines.reduce((sum, line) => sum + (parseFloat(line.trim()) || 0), 0),
+        sum => `数字之和为：${sum}`
+      );
+    }
+
+    function processData8() {
+      processDataCommonWithLines(
+        lines => lines.join('_'),
+        result => `重命名结果为：${result}`
+      );
+    }
+    function processData9() {
+      processDataCommonWithLines(
+        lines => {
+          const counts = {
+            '中通': 0,
+            '抖音中通': 0,
+            '菜鸟中通': 0,
+            '拼多多中通': 0,
+            '京东': 0,
+            '邮政': 0,
+            '抖音邮政': 0,
+            '快手邮政': 0,
+            '京东邮政': 0,
+            '拼多多邮政': 0,
+            '菜鸟邮政': 0
+          };
+
+          lines.forEach(line => {
+            const trimmedLine = line.trim();
+            if (trimmedLine.includes('抖音中通快递')) {
+              counts['中通']++;
+              counts['抖音中通']++;
+            } else if (trimmedLine.includes('淘宝中通快递')) {
+              counts['中通']++;
+              counts['菜鸟中通']++;
+            } else if (trimmedLine.includes('拼多多中通快递')) {
+              counts['中通']++;
+              counts['拼多多中通']++;
+            } else if (trimmedLine.includes('京东快递')) {
+              counts['京东']++;
+            } else if (trimmedLine.includes('抖音邮政国内小包')) {
+              counts['邮政']++;
+              counts['抖音邮政']++;
+            } else if (trimmedLine.includes('快手邮政')) {
+              counts['邮政']++;
+              counts['快手邮政']++;
+            } else if (trimmedLine.includes('京东邮政')) {
+              counts['邮政']++;
+              counts['京东邮政']++;
+            } else if (trimmedLine.includes('拼多多邮政')) {
+              counts['邮政']++;
+              counts['拼多多邮政']++;
+            } else if (trimmedLine.includes('菜鸟邮政')) {
+              counts['邮政']++;
+              counts['菜鸟邮政']++;
+            }
+          });
+          return counts;
+        },
+        counts => {
+          return `
+中通(${counts['中通']}单)
+---- 抖音   中通\t${counts['抖音中通']}
+---- 菜鸟   中通\t${counts['菜鸟中通']}
+---- 拼多多中通\t${counts['拼多多中通']}
+
+京东(${counts['京东']}单)
+                    \t
+邮政(${counts['邮政']}单)
+---- 抖音   邮政\t${counts['抖音邮政']}
+---- 菜鸟   邮政\t${counts['菜鸟邮政']}
+---- 拼多多邮政\t${counts['拼多多邮政']}
+---- 京东   邮政\t${counts['京东邮政']}
+---- 快手   邮政\t${counts['快手邮政']}`;
         }
+      );
+    }
 
-        function clearAllStatus() {
-            const statusDivs = document.querySelectorAll('.status');
-            statusDivs.forEach(statusDiv => {
-                statusDiv.textContent = '';
-            });
+
+    function fadeStatus(resultItem, message) {
+      const buttonContainer = resultItem.querySelector('.buttons');
+
+      // 删除现有的 statusDiv
+      const existingStatusDiv = buttonContainer.querySelector('.status');
+      if (existingStatusDiv) {
+        buttonContainer.removeChild(existingStatusDiv);
+      }
+
+      // 创建新的 statusDiv
+      const statusDiv = document.createElement('div');
+      statusDiv.className = 'status';
+      statusDiv.textContent = message;
+
+      // 添加渐显效果
+      statusDiv.style.opacity = 0; // Set initial opacity to 0
+      buttonContainer.appendChild(statusDiv);
+
+      // Trigger the fade-in effect
+      setTimeout(() => {
+        statusDiv.style.opacity = 1; // Set opacity to 1 for fade-in effect
+      }, 10); // Short delay to ensure reflow
+    }
+
+    function clearHighlight() {
+      const resultItems = document.querySelectorAll('.result-item');
+      resultItems.forEach(item => {
+        const p = item.querySelector('p');
+        if (p) {
+          // 移除所有 HTML 标签，只保留文本内容
+          p.textContent = p.textContent.replace(/<[^>]*>/g, '');
         }
+        item.classList.remove('highlighted');
+      });
+    }
 
-        function copyToClipboard(text) {
-            const tempInput = document.createElement('textarea');
-            tempInput.value = text;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
+    function clearAllStatus() {
+      const statusDivs = document.querySelectorAll('.status');
+      statusDivs.forEach(statusDiv => {
+        statusDiv.textContent = '';
+      });
+    }
+
+    function copyToClipboard(text) {
+      const tempInput = document.createElement('textarea');
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+    }
+
+    // 实时更新行数统计
+    document.getElementById('inputData').addEventListener('input', () => {
+      const input = document.getElementById('inputData').value.trim();
+      const lines = input.split('\n').filter(line => line.trim() !== ''); // 过滤掉空行
+      let invalidLines = 0;
+
+      lines.forEach((line) => {
+        const parts = line.trim().split(/\s+/);
+        if (parts.length !== 3) {
+          invalidLines++;
         }
+      });
 
-        // 实时更新行数统计
-        document.getElementById('inputData').addEventListener('input', () => {
-            const input = document.getElementById('inputData').value.trim();
-            const lines = input.split('\n').filter(line => line.trim() !== ''); // 过滤掉空行
-            let invalidLines = 0;
+      document.getElementById('lineSummary').textContent = `已输入 ${lines.length} 行数据，其中 ${invalidLines} 行不严格符合格式要求`;
+    });
 
-            lines.forEach((line) => {
-                const parts = line.trim().split(/\s+/);
-                if (parts.length !== 3) {
-                    invalidLines++;
-                }
-            });
 
-            document.getElementById('lineSummary').textContent = `已输入 ${lines.length} 行数据，其中 ${invalidLines} 行不严格符合格式要求`;
+    let currentPage = 1;
+    let itemsPerPage = parseInt(document.getElementById("itemsPerPage").value, 10);
+
+    function updatePagination() {
+      itemsPerPage = parseInt(document.getElementById("itemsPerPage").value, 10);
+      currentPage = 1;  // Reset to first page
+      renderPagination();
+      showPage(currentPage);
+    }
+
+    function renderPagination() {
+      const totalItems = document.querySelectorAll(".result-item").length;
+      //if(totalItems>0){
+      //	document.getElementById('pagination').style.display = 'block';
+      //}
+      const totalPages = Math.max(Math.ceil(totalItems / itemsPerPage), 1);  // 确保总页数至少为 1
+      document.getElementById("totalPagesDisplay").textContent = totalPages;
+      document.getElementById("currentPageDisplay").textContent = currentPage;
+
+      // Disable/Enable buttons
+      document.getElementById("prevPage").disabled = currentPage === 1;
+      document.getElementById("firstPage").disabled = currentPage === 1;
+      document.getElementById("lastPage").disabled = currentPage === totalPages;
+      document.getElementById("nextPage").disabled = currentPage === totalPages;
+      document.getElementById("goToPage").max = totalPages;
+      document.getElementById("goToOrder").max = totalItems;
+    }
+
+
+    function showPage(pageNumber) {
+      const allItems = document.querySelectorAll(".result-item");
+      const totalItems = allItems.length;
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+      if (pageNumber > totalPages || pageNumber < 1) return;
+
+      currentPage = pageNumber;
+
+      allItems.forEach(item => item.style.display = "none");  // Hide all items
+
+      const start = (pageNumber - 1) * itemsPerPage;
+      const end = Math.min(start + itemsPerPage, totalItems);
+
+      for (let i = start; i < end; i++) {
+        allItems[i].style.display = "block";  // Show items for the current page
+      }
+
+      renderPagination();
+    }
+
+    function goToNextPage() {
+      const totalItems = document.querySelectorAll(".result-item").length;
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+      if (currentPage < totalPages) {
+        showPage(currentPage + 1);
+      }
+    }
+
+    function goToPreviousPage() {
+      if (currentPage > 1) {
+        showPage(currentPage - 1);
+      }
+    }
+
+    function goToFirstPage() {
+      showPage(1);
+    }
+
+    function goToLastPage() {
+      showPage(Math.ceil((document.querySelectorAll(".result-item")).length / itemsPerPage));
+    }
+
+    function jumpToPage() {
+      const targetPage = parseInt(document.getElementById("goToPage").value, 10);
+      showPage(targetPage);
+    }
+
+    function jumpToOrder() {
+      const totalItems = document.querySelectorAll(".result-item").length;
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+      const targetOrder = parseInt(document.getElementById("goToOrder").value, 10);
+
+      const tmp = totalItems - targetOrder;
+      const temp = Math.ceil(targetOrder / itemsPerPage);
+
+      showPage(isAscending ? temp : (tmp % itemsPerPage == 0 ? tmp / itemsPerPage + 1 : Math.ceil(tmp / itemsPerPage)));
+
+      //window.location.hash = `resultid${targetOrder}`;
+      //scrollToElement(`resultid${targetOrder}`);
+
+      jump(`resultid${targetOrder}`);
+    }
+
+    function jump(id) {
+      document.querySelector('#' + id).scrollIntoView({ behavior: "smooth" })
+    }
+
+    function scrollToElement(id) {
+      var element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'smooth' // 平滑滚动效果
         });
-
-
-        let currentPage = 1;
-        let itemsPerPage = parseInt(document.getElementById("itemsPerPage").value, 10);
-
-        function updatePagination() {
-            itemsPerPage = parseInt(document.getElementById("itemsPerPage").value, 10);
-            currentPage = 1;  // Reset to first page
-            renderPagination();
-            showPage(currentPage);
-        }
-
-        function renderPagination() {
-            const totalItems = document.querySelectorAll(".result-item").length;
-            //if(totalItems>0){
-            //	document.getElementById('pagination').style.display = 'block';
-            //}
-            const totalPages = Math.max(Math.ceil(totalItems / itemsPerPage), 1);  // 确保总页数至少为 1
-            document.getElementById("totalPagesDisplay").textContent = totalPages;
-            document.getElementById("currentPageDisplay").textContent = currentPage;
-
-            // Disable/Enable buttons
-            document.getElementById("prevPage").disabled = currentPage === 1;
-            document.getElementById("firstPage").disabled = currentPage === 1;
-            document.getElementById("lastPage").disabled = currentPage === totalPages;
-            document.getElementById("nextPage").disabled = currentPage === totalPages;
-            document.getElementById("goToPage").max = totalPages;
-            document.getElementById("goToOrder").max = totalItems;
-        }
-
-
-        function showPage(pageNumber) {
-            const allItems = document.querySelectorAll(".result-item");
-            const totalItems = allItems.length;
-            const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-            if (pageNumber > totalPages || pageNumber < 1) return;
-
-            currentPage = pageNumber;
-
-            allItems.forEach(item => item.style.display = "none");  // Hide all items
-
-            const start = (pageNumber - 1) * itemsPerPage;
-            const end = Math.min(start + itemsPerPage, totalItems);
-
-            for (let i = start; i < end; i++) {
-                allItems[i].style.display = "block";  // Show items for the current page
-            }
-
-            renderPagination();
-        }
-
-        function goToNextPage() {
-            const totalItems = document.querySelectorAll(".result-item").length;
-            const totalPages = Math.ceil(totalItems / itemsPerPage);
-            if (currentPage < totalPages) {
-                showPage(currentPage + 1);
-            }
-        }
-
-        function goToPreviousPage() {
-            if (currentPage > 1) {
-                showPage(currentPage - 1);
-            }
-        }
-
-        function goToFirstPage() {
-            showPage(1);
-        }
-
-        function goToLastPage() {
-            showPage(Math.ceil((document.querySelectorAll(".result-item")).length / itemsPerPage));
-        }
-
-        function jumpToPage() {
-            const targetPage = parseInt(document.getElementById("goToPage").value, 10);
-            showPage(targetPage);
-        }
-
-        function jumpToOrder() {
-            const totalItems = document.querySelectorAll(".result-item").length;
-            const totalPages = Math.ceil(totalItems / itemsPerPage);
-            const targetOrder = parseInt(document.getElementById("goToOrder").value, 10);
-
-            const tmp = totalItems - targetOrder;
-            const temp = Math.ceil(targetOrder / itemsPerPage);
-
-            showPage(isAscending ? temp : (tmp % itemsPerPage == 0 ? tmp / itemsPerPage + 1 : Math.ceil(tmp / itemsPerPage)));
-
-            //window.location.hash = `resultid${targetOrder}`;
-            //scrollToElement(`resultid${targetOrder}`);
-
-            jump(`resultid${targetOrder}`);
-        }
-
-        function jump(id) {
-            document.querySelector('#' + id).scrollIntoView({ behavior: "smooth" })
-        }
-
-        function scrollToElement(id) {
-            var element = document.getElementById(id);
-            if (element) {
-                element.scrollIntoView({
-                    behavior: 'smooth' // 平滑滚动效果
-                });
-            }
-        }
-        // 初始化
-        document.addEventListener("DOMContentLoaded", function () {
-            renderPagination();
-            showPage(1);
-        });
-    </script>
+      }
+    }
+    // 初始化
+    document.addEventListener("DOMContentLoaded", function () {
+      renderPagination();
+      showPage(1);
+    });
+  </script>
 </body>
 
 </html>
