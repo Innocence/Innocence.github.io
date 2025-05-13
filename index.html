@@ -898,7 +898,13 @@
             );
             updateLineSummary();
         }
+
         function processData9() {
+            const platform1 = '抖音'.padEnd(3, '　'); // 使用全角空格
+            const platform2 = '菜鸟'.padEnd(3, '　');
+            const platform4 = '京东'.padEnd(3, '　');
+            const platform5 = '快手'.padEnd(3, '　');
+            const platform3 = '拼多多';
             processDataCommonWithLines(
                 lines => {
                     const counts = {
@@ -953,18 +959,18 @@
                     return `总量(${counts['total']}单)
                     
 中通(${counts['中通']}单)
----- 抖音   中通\t${counts['抖音中通']}
----- 菜鸟   中通\t${counts['菜鸟中通']}
----- 拼多多中通\t${counts['拼多多中通']}
+--- ${platform1}中通\t${counts['抖音中通']}
+--- ${platform2}中通\t${counts['菜鸟中通']}
+--- ${platform3}中通\t${counts['拼多多中通']}
 
 京东(${counts['京东']}单)
                     \t
 邮政(${counts['邮政']}单)
----- 抖音   邮政\t${counts['抖音邮政']}
----- 菜鸟   邮政\t${counts['菜鸟邮政']}
----- 京东   邮政\t${counts['京东邮政']}
----- 快手   邮政\t${counts['快手邮政']}
----- 拼多多邮政\t${counts['拼多多邮政']}`;
+--- ${platform1}邮政\t${counts['抖音邮政']}
+--- ${platform2}邮政\t${counts['菜鸟邮政']}
+--- ${platform4}邮政\t${counts['京东邮政']}
+--- ${platform5}邮政\t${counts['快手邮政']}
+--- ${platform3}邮政\t${counts['拼多多邮政']}`;
                 }
             );
             updateLineSummary();
