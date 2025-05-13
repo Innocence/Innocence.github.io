@@ -869,36 +869,36 @@
         }
 
 
-        function updateLineSummary(input) {
+        function updateLineSummary() {
+            const input = document.getElementById('inputData').value.trim();
             const lineSummaryDiv = document.getElementById('lineSummary');
             const lines = input.split('\n').filter(line => line.trim());
             let invalidLines = 0;
+
             lines.forEach(line => {
-                const parts = line.split(' ');
+                const parts = line.trim().split(/\s+/)
                 if (parts.length !== 3) invalidLines++;
             });
+
             lineSummaryDiv.textContent = `已输入 ${lines.length} 行数据，其中 ${invalidLines} 行不严格符合格式要求`;
         }
 
         function processData7() {
-            const { input, resultDiv, lineSummaryDiv, backToTop } = getCommonElements();
             processDataCommonWithLines(
                 lines => lines.reduce((sum, line) => sum + (parseFloat(line.trim()) || 0), 0),
                 sum => `数字之和为：${sum}`
             );
-            updateLineSummary(input);
+            updateLineSummary();
         }
 
         function processData8() {
-            const { input, resultDiv, lineSummaryDiv, backToTop } = getCommonElements();
             processDataCommonWithLines(
                 lines => lines.join('_'),
                 result => `重命名结果为：${result}`
             );
-            updateLineSummary(input);
+            updateLineSummary();
         }
         function processData9() {
-            const { input, resultDiv, lineSummaryDiv, backToTop } = getCommonElements();
             processDataCommonWithLines(
                 lines => {
                     const counts = {
@@ -967,7 +967,7 @@
 ---- 拼多多邮政\t${counts['拼多多邮政']}`;
                 }
             );
-            updateLineSummary(input);
+            updateLineSummary();
         }
         // ... 保留其他现有代码不变 ...
 
