@@ -881,7 +881,7 @@
                 result => `重命名结果为：${result}`
             );
         }
-        function processData9() {
+       function processData9() {
             processDataCommonWithLines(
                 lines => {
                     const counts = {
@@ -895,7 +895,8 @@
                         '快手邮政': 0,
                         '京东邮政': 0,
                         '拼多多邮政': 0,
-                        '菜鸟邮政': 0
+                        '菜鸟邮政': 0,
+                        'total': 0
                     };
 
                     lines.forEach(line => {
@@ -927,11 +928,14 @@
                             counts['邮政']++;
                             counts['菜鸟邮政']++;
                         }
+                        counts['total']++;
                     });
                     return counts;
                 },
                 counts => {
-                    return `中通(${counts['中通']}单)
+                    return `今日总单量: ${counts['total']}
+                    
+中通(${counts['中通']}单)
 ---- 抖音   中通\t${counts['抖音中通']}
 ---- 菜鸟   中通\t${counts['菜鸟中通']}
 ---- 拼多多中通\t${counts['拼多多中通']}
@@ -941,11 +945,21 @@
 邮政(${counts['邮政']}单)
 ---- 抖音   邮政\t${counts['抖音邮政']}
 ---- 菜鸟   邮政\t${counts['菜鸟邮政']}
+---- 拼多多邮政\t${counts['拼多多邮政']}
 ---- 京东   邮政\t${counts['京东邮政']}
----- 快手   邮政\t${counts['快手邮政']}
----- 拼多多邮政\t${counts['拼多多邮政']}`;
+---- 快手   邮政\t${counts['快手邮政']}`;
                 }
             );
+        }
+        // ... 保留其他现有代码不变 ...
+
+        // 更新按钮显示状态的函数
+        function updateScrollButtonVisibility(result, backToTop) {
+            if (result.scrollTop > 20) {
+                backToTop.style.display = 'flex';
+            } else {
+                backToTop.style.display = 'none';
+            }
         }
         // ... 保留其他现有代码不变 ...
 
