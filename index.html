@@ -513,7 +513,7 @@
 </head>
 
 <body>
-    <textarea id="inputData" class="text_style" placeholder="请输入一行或多行订单数据    数据格式为 「店铺 原始单号 物流单号(双地址及是否退款、通知退款非必要)」">
+    <textarea id="inputData" class="text_style" placeholder="请输入一行或多行订单数据    数据格式为 「店铺 原始单号 物流单号(双地址及是否退款、通知退款非必要)」  ">
     </textarea>
     <div id="lineSummary" class="line-summary">已输入 0 行数据，其中 0 行不严格符合格式要求</div>
     <button id="processButton1" class="processbutton" onclick="processData1()">拆单</button>
@@ -542,7 +542,21 @@
         <button id="backToTop" class="scroll-to-top-btn"></button>
     </div>
 
+    <script>
+        const textarea = document.getElementById('inputData');
+        // 聚焦时修改 placeholder
+        textarea.addEventListener('focus', () => {
+            textarea.placeholder = `请输入一行或多行订单数据    数据格式为 「店铺 原始单号 物流单号(双地址及是否退款、通知退款非必要)」    不符合对应格式要求的订单数据不会被处理....  
+数据示例：		   
+                     沃尔玛  100200300    123456789              |   数据格式非 「店铺 原始单号 物流单号」 则为不严格符合格式要求        
 
+使用方法：根据所需功能点击相应按钮        `;
+        });
+
+        textarea.addEventListener('blur', () => {
+            textarea.placeholder = `请输入一行或多行订单数据    数据格式为 「店铺 原始单号 物流单号(双地址及是否退款、通知退款非必要)」`;
+        });
+    </script>
 
     <script id="mainscript">
         window.onload = function () {
