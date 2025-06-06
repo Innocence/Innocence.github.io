@@ -919,7 +919,543 @@
             lineSummaryDiv.textContent = `已输入 ${lines.length} 行数据，其中 ${invalidLines} 行不严格符合格式要求`;
         }
 
-       
+        function processData7() {
+            const textToCopy = (lines) => {
+                const sum = lines.reduce((sum, line) => sum + (parseFloat(line.trim()) || 0), 0);
+                return `数字之和为：${sum}`;
+            };
+            processDataCommonWithLines(
+                lines => lines.reduce((sum, line) => sum + (parseFloat(line.trim()) || 0), 0),
+                sum => `数字之和为：${sum}`,
+                ['复制结果'],
+                lines => textToCopy(lines)
+            );
+            updateLineSummary();
+        }
+
+        function processData8() {
+            const textToCopy = (lines) => lines.join('_');
+            processDataCommonWithLines(
+                lines => lines.join('_'),
+                result => `${result}`,
+                ['复制结果'],
+                lines => textToCopy(lines)
+            );
+            updateLineSummary();
+        }
+
+        function processData9() {
+            enablebutton2();
+            const platform1 = '抖音'.padEnd(3, '　'); // 使用全角空格 
+            const platform2 = '菜鸟'.padEnd(3, '　');
+            const platform4 = '京东'.padEnd(3, '　');
+            const platform5 = '快手'.padEnd(3, '　');
+            const platform3 = '拼多多';
+
+            const processLines = (lines) => {
+                const counts = {
+                    '中通': 0,
+                    '抖音中通': 0,
+                    '菜鸟中通': 0,
+                    '拼多多中通': 0,
+                    '京东': 0,
+                    '邮政': 0,
+                    '抖音邮政': 0,
+                    '快手邮政': 0,
+                    '京东邮政': 0,
+                    '拼多多邮政': 0,
+                    '菜鸟邮政': 0,
+                    'total': 0
+                };
+
+                lines.forEach(line => {
+                    const trimmedLine = line.trim();
+                    if (trimmedLine.includes('抖音中通快递')) {
+                        counts['中通']++;
+                        counts['抖音中通']++;
+                    } else if (trimmedLine.includes('淘宝中通快递')) {
+                        counts['中通']++;
+                        counts['菜鸟中通']++;
+                    } else if (trimmedLine.includes('拼多多中通快递')) {
+                        counts['中通']++;
+                        counts['拼多多中通']++;
+                    } else if (trimmedLine.includes('京东快递')) {
+                        counts['京东']++;
+                    } else if (trimmedLine.includes('抖音邮政国内小包')) {
+                        counts['邮政']++;
+                        counts['抖音邮政']++;
+                    } else if (trimmedLine.includes('快手邮政')) {
+                        counts['邮政']++;
+                        counts['快手邮政']++;
+                    } else if (trimmedLine.includes('京东邮政')) {
+                        counts['邮政']++;
+                        counts['京东邮政']++;
+                    } else if (trimmedLine.includes('拼多多邮政')) {
+                        counts['邮政']++;
+                        counts['拼多多邮政']++;
+                    } else if (trimmedLine.includes('菜鸟邮政')) {
+                        counts['邮政']++;
+                        counts['菜鸟邮政']++;
+                    }
+                    counts['total']++;
+                });
+                return counts;
+            };
+
+            const formatResult = (counts) => {
+                return `中通(${counts['中通']}单) 
+ --- ${platform1}中通\t${counts['抖音中通']} 
+ --- ${platform2}中通\t${counts['菜鸟中通']} 
+ --- ${platform3}中通\t${counts['拼多多中通']} 
+
+ 京东(${counts['京东']}单) 
+ \t 
+ 邮政(${counts['邮政']}单) 
+ --- ${platform1}邮政\t${counts['抖音邮政']} 
+ --- ${platform2}邮政\t${counts['菜鸟邮政']} 
+ --- ${platform4}邮政\t${counts['京东邮政']} 
+ --- ${platform5}邮政\t${counts['快手邮政']} 
+ --- ${platform3}邮政\t${counts['拼多多邮政']}`;
+            };
+
+            const textToCopyAll = (lines) => {
+                const counts = processLines(lines);
+                return formatResult(counts);
+            };
+
+            const textToCopyJD = (lines) => {
+                const counts = lines.reduce((acc, line) => {
+                    const trimmedLine = line.trim();
+                    if (trimmedLine.includes('京东快递')) {
+                        acc['京东']++;
+                    }
+                    return acc;
+                }, { '京东': 0 });
+                return `京东(${counts['京东']}单)`;
+            };
+
+            const { input, resultDiv, lineSummaryDiv } = getCommonElements();
+            resultDiv.innerHTML = '';
+            if (handleEmptyInput(input, resultDiv, lineSummaryDiv)) {
+                return;
+            }
+            const lines = input.split('\n');
+            const counts = processLines(lines);
+            const formattedResult = formatResult(counts);
+
+            const { resultItem, statusDiv, buttonContainer, p } = createResultItemWithElements();
+            p.textContent = formattedResult;
+
+            const createCopyButtonWrapper = (buttonText, textToCopy) => {
+                return createCopyButton(resultItem, textToCopy, buttonText, `${buttonText}成功`, formattedResult, counts);
+            };
+
+            buttonContainer.appendChild(createCopyButtonWrapper('复制全部', textToCopyAll(lines)));
+            buttonContainer.appendChild(createCopyButtonWrapper('复制京东', textToCopyJD(lines)));
+
+
+            resultItem.appendChild(statusDiv);
+            resultItem.appendChild(p);
+            resultDiv.appendChild(resultItem);
+            resultItem.appendChild(buttonContainer);
+
+            updateLineSummary();
+        }
+        // ... 保留其他现有代码不变 ...
+
+        function processData10() {
+            enablebutton2();
+            const { input, resultDiv, lineSummaryDiv, backToTop } = getCommonElements();
+            resultDiv.innerHTML = '';
+
+            if (handleEmptyInput(input, resultDiv, lineSummaryDiv)) {
+                renderPagination();
+                return;
+            }
+
+            const lines = input.split('\n').filter(line => line.trim() !== '');
+            let invalidLines = 0;
+            const goodData = `
+AXXQQT 爱心喜QQ糖
+BBNG 贝贝南瓜
+BFCD 缤纷彩豆
+BHXBG 裱花小饼干
+BJCPT 爆浆陈皮糖
+BJRT 爆浆软糖
+BPMG 剥皮芒果软糖
+BQLLDB 冰淇淋绿豆饼
+bsypt 爆酸压片糖
+BSYT 爆酸硬糖
+BTBBT 白桃棒棒糖
+BZG 八珍糕
+BZS 八爪烧
+CCJ 脆脆角
+CFWHP 茶风味含片
+BJCPT 爆浆陈皮糖
+CMFT 饭团
+CPB 陈皮饼
+CPSYQLG 陈皮山药秋梨糕
+CQBHT 财气薄荷糖
+CQLGBBT 财气梨膏棒棒糖
+CSXQQT 财神笑QQ糖
+CSXTGLB 财神笑糖果礼包
+CSXTGLBDZ 财神笑糖果礼包袋子
+CSYPT 超酸压片糖
+CSYT 超酸硬糖
+CWYT 茶味硬糖
+DBQKL 迪拜巧克力
+DJDL 大吉大利软糖
+DJZT 电解质糖
+DPTS 蛋皮吐司
+DWHS 多味花生
+DZJT 电解质糖
+FHWCXTT 方盒香体糖
+FMJXRT-DZ 蜂蜜夹心软糖袋装
+FMJXRT-SZ 蜂蜜夹心软糖散装
+gb 锅巴
+GB 锅巴
+GCRHT 甘草糖
+GD 果冻
+GHG 桂花糕
+GHWLS-DK 大颗桂花乌龙酥
+GHWLS-mini 迷你桂花乌龙酥
+GLQJXQKL 格力奇夹心巧克力
+GP-BJRT【果盘】爆浆软糖
+GP-GZYT 【果盘】果汁硬糖
+GP-KFT 【果盘】咖啡糖
+GP-LGBBT 【果盘】梨膏棒棒糖
+GP-LZBHT 【果盘】励志薄荷糖
+GP-LZKFT 【果盘】励志咖啡糖
+GP-QHBHT【果盘】情话薄荷糖
+GP-RHT 【果盘】清凉糖
+GP-XTT【果盘】香体糖
+GP-YWNB 【果盘】原味奶贝
+GZ6WSGT 六味果汁硬糖
+GZYT 果汁硬糖
+HDJ 海带结
+HCMFT 荤饭团
+SCMFT 素饭团
+HDP 海带片
+HDS 海带丝
+HLJYZT 好邻居椰子糖
+HRZRT 好日子软糖
+HYBHT 海盐薄荷糖
+HYHFC 黄油华夫脆
+HZWQAQKL 盒装维巧爱
+JGBG 坚果小饼
+JGHS 酒鬼花生
+JZDXP 俊仔大虾片
+kfh 咖啡糖
+KFTPZ 咖啡糖瓶装
+KTBBT 卡通棒棒糖
+ldh 兰花豆
+LGBBT 梨膏棒棒糖
+LHD 兰花豆
+LLNT 榴莲糖
+LPGB 脸谱锅巴
+LSNT 拉丝奶糖
+LXGROKL 果仁流心巧克力
+LZBHT 励志薄荷糖
+LZKFT 励志咖啡糖
+MK 马卡龙
+MLS 麦丽素
+MMDBBT 萌萌哒棒棒糖
+MTC 马蹄脆
+MZT 梅子糖
+NLYMT 奶酪玉米条
+NPRMB 奶皮软面包
+PSXB 披萨小饼
+QHBHT 情话薄荷糖
+QKLNB 巧克力奶贝
+QLGBBT 秋梨膏棒棒糖
+QLGGD 秋梨膏果冻
+QNBBT 青柠棒棒糖
+QYQKL 巧缘巧克力
+RHT 清凉糖
+RSJ 乳酸菌小面包
+RSJBBT 乳酸菌棒棒糖
+RSJQQT 乳酸菌味QQ糖
+RSMBB 肉松面包饼
+SD-XTT 圣诞版香体糖
+SGBBT 水果棒棒糖
+SGNB 水果奶贝
+SGT 酸果条
+SGZL 水果之恋
+SJS 三角酥
+SLQKL 松露巧克力
+SQT 酸Q糖
+SYLMLXG 山药蓝莓流心糕
+SZBBT 山楂棒棒糖
+SZWQAQK 散装维巧爱
+TGSY 铁棍山药
+THYZT 台航椰子糖
+TM-LGBBT 透明梨膏棒棒糖
+TTTNB 跳跳糖奶贝
+VCGZBBT VC果汁棒棒糖
+WHSSZMB 五黑桑甚紫米饼
+WTBHT 铁盒薄荷糖
+XGB 锅巴
+XHB 小黑饼
+XMH 小麻花
+XP 虾片
+XQBJRT 喜庆十分爆浆软糖
+XRT 冰咖啡香润糖
+XSHS 喜事花生
+XTT 香体糖
+XXSXRT 小熊双喜橘子味软糖
+XYB 小月饼
+XZSP 星座薯片
+YJKXT 益箭口香糖
+YKMRSJ 优咔曼小口袋
+YMS 燕麦酥
+YNMHDSYB 血糯米红豆山药饼
+YNS 芋泥酥
+YTF 日式盐奶糖
+YWNB 原味奶贝
+`;
+
+            const flavor = `
+yw 原味
+xl 香辣味
+bl 爆辣味
+bl 菠萝味
+hh 混合味
+cp 陈皮味
+lh 芦荟味
+ql 秋梨味
+qn 青柠味
+sn 酸奶味
+hz 盒装
+sz 散装
+np 牛排味
+nr 牛肉味
+xx 蟹香味
+cx 葱香味
+jx 椒香味
+ml 麻辣味
+fq 番茄味
+mlhc 茉莉花茶味
+mtwl 蜜桃乌龙味
+qtwl 青提乌龙 味
+arlkc 奥尔良烤翅味
+hijr 黑椒鸡肉味 
+lmcm 藜麦糙米味
+xym 鲜玉米味
+ymzs 燕麦紫薯味
+mglz 玫瑰荔枝味
+kxg 开心果味
+yz 椰子味
+zz 榛子味
+LDZ 礼袋装
+smt 水蜜桃味
+xy 西柚味
+wt 无糖味
+qkl 巧克力味
+bt 白桃味
+tc 甜橙味
+pg 苹果味
+mg 蜜瓜味
+sy 生椰拿铁味
+jt 焦糖味
+tl 甜辣味
+hq 黑巧克力味
+lz 荔枝味
+sx 蒜香味
+wx 五香味
+qt 茉莉青提味
+sj 什锦味
+bq 白巧克力味
+DZ 袋装
+jyh 金银花味
+lhg 罗汉果味
+pdh 胖大海味
+pp 枇杷味
+hzsy 红枣山药味
+cm 草莓味
+dr 豆乳味
+mg 芒果味
+sm 酸梅味
+lm 蓝莓味
+lh 礼盒装
+kk 可可味
+qq 曲奇味
+50g 50克
+hg 黄瓜味
+208g 208克
+mc 抹茶味
+pt 葡萄味
+bdm 巴旦木味
+xdh 咸蛋黄味
+yn 椰奶味
+ysj 益生菌味
+yhs 叶黄素味
+ht 海苔味
+yg 腰果味
+dha DHA味
+kr 烤肉味
+bh 薄荷味
+hkf 黑咖啡味
+bxg 百香果
+ss	桑葚味
+nm 柠檬味
+lbc 辣白菜味
+xg 西瓜味
+tj 藤椒味
+DLB 大礼包
+xlb 小礼包
+ncr 牛初乳味
+ysy 益生元味
+yjd	鹰嘴豆味
+byd 白芸豆味
+qscm 七色糙米味
+nn 牛奶味
+ny 奶油味
+zs 芝士味
+mym 蔓越莓味
+xb 小杯
+ht 黑糖味
+ht 红糖味
+jy 椒盐味
+zs 紫薯味
+synt 生椰拿铁味
+hmg 哈密瓜味
+fl 凤梨味
+ml 麻辣味
+HD 红豆味
+HZM 黑芝麻味
+LD 红豆味
+`;
+
+            const unit = `
+g 克
+b 包
+m 枚
+k 颗
+z 支
+d 袋
+h 盒
+t 桶
+`;
+
+            const goodsMap = new Map();
+            const goodsLines = goodData.trim().split('\n');
+            goodsLines.forEach(line => {
+                const [code, name] = line.split(' ');
+                if (code && name) {
+                    goodsMap.set(code.trim().toLowerCase(), name.trim());
+                }
+            });
+
+            const flavorMap = new Map();
+            const flavorLines = flavor.trim().split('\n');
+            flavorLines.forEach(line => {
+                const [code, name] = line.split(' ');
+                if (code && name) {
+                    flavorMap.set(code.trim().toLowerCase(), name.trim());
+                }
+            });
+            console.log('flavorMap:', flavorMap);
+
+            const unitMap = new Map();
+            const unitLines = unit.trim().split('\n');
+            unitLines.forEach(line => {
+                const [code, name] = line.split(' ');
+                if (code && name) {
+                    unitMap.set(code.trim().toLowerCase(), name.trim());
+                }
+            });
+            lines.forEach((line, index) => {
+                // 正则检测是否为硬编码格式
+                const riceBallRegex = /(HCMFT|SCMFT)-hh-\d+d\+(HCMFT|SCMFT)-hh-\d+d/;
+                if (riceBallRegex.test(line)) {
+                    let meatCount = 0;
+                    let vegCount = 0;
+
+                    const parts = line.split('+');
+                    parts.forEach(part => {
+                        const match = part.match(/(HCMFT|SCMFT)-hh-(\d+)d/);
+                        if (match) {
+                            const type = match[1];
+                            const count = parseInt(match[2]);
+                            if (type === 'HCMFT') {
+                                meatCount = count;
+                            } else if (type === 'SCMFT') {
+                                vegCount = count;
+                            }
+                        }
+                    });
+
+                    const outputText = `饭团${meatCount}荤${vegCount}素`;
+
+                    const { resultItem, statusDiv, buttonContainer, p } = createResultItemWithElements();
+                    p.textContent = outputText;
+
+                    const copyButton = createCopyButton(resultItem, outputText, '复制饭团信息', '复制饭团信息成功', outputText);
+                    buttonContainer.appendChild(copyButton);
+                    buttonContainer.appendChild(statusDiv);
+
+                    resultItem.appendChild(p);
+                    resultItem.appendChild(buttonContainer);
+                    resultDiv.appendChild(resultItem);
+                } else {
+                    const parts = line.trim().split('-');
+                    const goodsCode = parts[0].toLowerCase();
+                    const goodsName = goodsMap.get(goodsCode) || '未知商品';
+
+                    let flavorCode = '';
+                    let quantity = '';
+                    let unitCode = '';
+
+                    if (parts.length >= 3) {
+                        flavorCode = parts[1].toLowerCase();
+                        const quantityMatch = parts[2].match(/(\d+)([a-zA-Z]+)/);
+                        if (quantityMatch) {
+                            quantity = quantityMatch[1];
+                            unitCode = quantityMatch[2].toLowerCase();
+                        }
+                    }
+
+                    const flavorName = flavorMap.get(flavorCode) || '未知口味';
+                    const unitName = unitMap.get(unitCode) || '';
+
+                    let outputText = `${goodsName}`;
+                    if (flavorName) {
+                        outputText += ` ${flavorName}`;
+                    }
+                    if (quantity && unitName) {
+                        outputText += ` ${quantity}${unitName}`;
+                    }
+
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'result-item';
+                    resultItem.id = `resultid${index + 1}`;
+
+                    const serialNumber = document.createElement('span');
+                    serialNumber.textContent = `${index + 1}`;
+
+                    const statusDiv = document.createElement('div');
+                    statusDiv.id = `status${index + 1}`;
+                    statusDiv.className = 'status';
+
+                    const { buttonContainer, p } = createResultItemWithElements(false);
+
+                    p.textContent = outputText;
+
+                    const copyButton = createCopyButton(resultItem, outputText, '复制货品名称', '复制货品名称成功', outputText);
+                    buttonContainer.appendChild(copyButton);
+
+                    buttonContainer.appendChild(statusDiv);
+                    resultItem.appendChild(serialNumber);
+                    resultItem.appendChild(p);
+                    resultItem.appendChild(buttonContainer);
+                    resultDiv.appendChild(resultItem);
+
+                    if (!goodsMap.has(goodsCode) || flavorName === '未知口味' || (quantity && !unitMap.has(unitCode))) {
+                        invalidLines++;
+                    }
+                }
+            });
+        }
 
 
         // 更新按钮显示状态的函数
