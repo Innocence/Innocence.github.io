@@ -1,0 +1,503 @@
+ body {
+            font-family: Segoe UI, Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-width: 1850px;
+            margin: 0;
+            padding: 0 20px 20px 20px;
+            color: #333;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink-caret {
+
+            from,
+            to {
+                border-color: transparent;
+            }
+
+            50% {
+                border-color: #0078D4;
+            }
+        }
+
+        @keyframes colorChange {
+            0% {
+                color: #0078D4;
+            }
+
+            25% {
+                color: #1E1E1E;
+            }
+
+            50% {
+                color: #FF8C00;
+            }
+
+            75% {
+                color: #E81123;
+            }
+
+            100% {
+                color: #0078D4;
+            }
+        }
+
+        textarea {
+            width: 100%;
+            margin-top: 10px;
+            height: 100px;
+            box-sizing: border-box;
+            border-radius: 8px;
+            border: none;
+            padding: 10px;
+            font-family: "Microsoft YaHei", "微软雅黑";
+            font-size: 16px;
+            resize: vertical;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #333;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+            overflow: auto;
+        }
+
+        textarea:focus {
+            border-color: #007bff;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+            outline: none;
+        }
+
+        textarea::placeholder {
+            color: #BBB;
+            opacity: 1;
+            /* Firefox */
+            transition: color 0.3s ease;
+        }
+
+        textarea:focus::placeholder {
+            color: #666;
+        }
+
+        textarea#inputData::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        textarea#inputData::-webkit-scrollbar-thumb {
+            background-color: #0078D4;
+            border-radius: 10px;
+        }
+
+        textarea#inputData::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+
+
+        * {
+            scrollbar-width: inherit;
+            scrollbar-color: #0078D4 #f4f4f4;
+        }
+
+        /* Apply light flow effect to processButton */
+        button.processbutton {
+            width: 16.4%;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            background-color: #0078D4;
+            /* Base color for the button */
+            color: #FFFFFF;
+            font-size: 25px;
+            font-family: "Microsoft YaHei", "微软雅黑";
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.2s, transform 0.2s;
+            margin: 5px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        button.processbutton::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+            opacity: 0;
+            transition: opacity 0.5s;
+            transform: rotate(-30deg);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        button.processbutton:hover::before {
+            opacity: 1;
+            animation: light-flow 1.5s infinite linear;
+        }
+
+        button.processbutton:hover {
+            background-color: #005A9E;
+            /* Darker shade for hover effect */
+        }
+
+        @keyframes light-flow {
+            0% {
+                transform: translateX(-100%) rotate(-30deg);
+            }
+
+            100% {
+                transform: translateX(100%) rotate(-30deg);
+            }
+        }
+
+        /* Ensure text is visible over the gradient */
+        button.processbutton span {
+            position: relative;
+            z-index: 2;
+        }
+
+
+        /* Apply neon effect to buttons inside resultItem */
+        button.neon-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            background-color: #0078D4;
+            /* Same as processButton */
+            color: #FFFFFF;
+            font-family: "Microsoft YaHei", "微软雅黑";
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s, text-shadow 0.2s;
+            margin-right: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        button.neon-button:hover {
+            background-color: #005A9E;
+            /* Same as processButton hover */
+            animation: neon 1.5s infinite alternate;
+        }
+
+        @keyframes neon {
+            from {
+                text-shadow: 0 0 5px #00aaff, 0 0 10px #00aaff, 0 0 15px #00aaff, 0 0 20px #00aaff, 0 0 25px #00aaff, 0 0 30px #00aaff, 0 0 35px #00aaff;
+            }
+
+            to {
+                text-shadow: 0 0 10px #0078D4, 0 0 20px #0078D4, 0 0 30px #0078D4, 0 0 40px #0078D4, 0 0 50px #0078D4, 0 0 60px #0078D4, 0 0 70px #0078D4;
+            }
+        }
+
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            background-color: #0078D4;
+            color: #FFFFFF;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+            margin: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background-color: #005A9E;
+        }
+
+        button:active {
+            background-color: #004578;
+            transform: scale(0.98);
+        }
+
+
+        .result {
+            width: 98%;
+            height: 550px;
+            /* 设置固定高度 */
+            overflow-y: auto;
+            /* 启用垂直滚动 */
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        /* 自定义滚动条样式 */
+        .result::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .result::-webkit-scrollbar-thumb {
+            background-color: #0078D4;
+            border-radius: 10px;
+        }
+
+        .result::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+
+
+        .result-item {
+            margin: 20px 0;
+            padding: 10px 20px 20px 20px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .result-item p {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #E1E1E1;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: "霞鹜文楷", Arial, "Microsoft YaHei", "微软雅黑";
+            font-size: 20px;
+            color: #3F788F;
+            background-color: #F9F9F9;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-item span {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-family: "霞鹜文楷";
+            font-size: 24px;
+            background: linear-gradient(90deg, #ff6b6b, #f94d6a, #f9c74f, #43aa8b, #4d908e);
+            background-size: 200% auto;
+            /* 控制渐变效果 */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 3s linear infinite;
+            /* 渐变动画 */
+        }
+
+        @keyframes gradient-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .result-item:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .buttons {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .buttons button {
+            margin-right: 10px;
+        }
+
+
+        .status {
+            margin-left: 10px;
+            color: #107C10;
+            font-size: 1.3em;
+            font-weight: 800;
+            font-family: "霞鹜文楷";
+            opacity: 0;
+            /* 初始状态为透明 */
+            transition: opacity 0.5s ease-in-out;
+            /* 渐显效果 */
+        }
+
+
+        .empty-message {
+            font-size: 8em;
+            background-color: #F9F9F9;
+            /*border: 1px solid #E1E1E1;*/
+            border-radius: 8px;
+            padding: 10px;
+            /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+            background: linear-gradient(90deg, #4285F4, #EA4335, #FBBC05, #34A853);
+            /* Google logo colors */
+            animation: slide-in 0.5s ease-out;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes slide-in {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .line-summary {
+            font-size: 2em;
+            background-color: #F9F9F9;
+            border: 1px solid #E1E1E1;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: left;
+            background: linear-gradient(90deg, #4285F4, #EA4335, #FBBC05, #34A853);
+            /* Google logo colors */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .result-item.highlighted {
+            border: 2px solid #E81123;
+            /* Highlight color */
+            box-shadow: 0 0 15px rgba(232, 17, 35, 0.5);
+            /* Optional shadow effect */
+        }
+
+        div#pic img {
+            margin: 10px 45%;
+        }
+
+        strong {
+            /* background-color: #FFFF00; 选择一个高亮颜色 */
+            color: #107C10
+                /* 确保文字颜色可读 */
+        }
+
+
+        #backToTop {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 999;
+        }
+
+        #backToTop::before {
+            content: '';
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            display: inline-block;
+            padding: 10px;
+            transform: rotate(-135deg);
+        }
+
+        #backToTop:hover {
+            background: linear-gradient(135deg, #000DFF 0%, #6B73FF 100%);
+        }
+
+        #backToTop:active {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .pagination {
+            /*display: flex;*/
+            width: 100%;
+            align-items: center;
+            margin-top: 20px;
+            margin-left: 20px;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .pagination input {
+            width: 100px;
+            text-align: center;
+            margin: 0 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 5px;
+        }
+
+        .pagination button {
+            margin: 0 5px;
+            width: 120px;
+            padding: 6px 12px;
+            border: none;
+            background-color: #0078d4;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .pagination button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background-color: #005a9e;
+        }
+
+        /* Container for the pagination controls */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            font-family: Segoe UI, Arial, sans-serif;
+        }
+
+
+
+        /* Add spacing and visual elements to pagination text */
+        .pagination span {
+            margin: 0 5px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* Style for page number links */
+        .pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #007bff;
+            transition: color 0.3s ease;
+        }
+
+        .pagination a:hover {
+            color: #0056b3;
+        }
+
+        .text_style {
+            white-space: pre-wrap;
+        }
