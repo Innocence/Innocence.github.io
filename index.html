@@ -1,12 +1,114 @@
 <!DOCTYPE html>
-<html lang="zh">
-
+<html lang="zh-CN">
 <head>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>局域网IP直达跳转</title>
+  <style>
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
+      font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', Arial, sans-serif;
+    }
+    .container {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px 0 rgba(60, 80, 120, 0.10);
+      padding: 2.5rem 2rem 2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 340px;
+      width: 90vw;
+    }
+    h2 {
+      margin: 0 0 1.2rem 0;
+      font-size: 1.5rem;
+      color: #2d3748;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+    .input-row {
+      display: flex;
+      width: 100%;
+      margin-bottom: 1.5rem;
+      align-items: center;
+      justify-content: center;
+    }
+    .input-row span {
+      font-size: 1.1rem;
+      color: #4a5568;
+      margin-right: 0.5rem;
+    }
+    .input-row input {
+      width: 60px;
+      padding: 0.5rem 0.7rem;
+      font-size: 1.1rem;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      outline: none;
+      transition: border 0.2s;
+      text-align: center;
+      margin-right: 0.5rem;
+    }
+    .input-row input:focus {
+      border-color: #3182ce;
+    }
+    .jump-btn {
+      width: 100%;
+      padding: 0.7rem 0;
+      background: linear-gradient(90deg, #3182ce 0%, #4fd1c5 100%);
+      color: #fff;
+      font-size: 1.15rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px 0 rgba(49,130,206,0.08);
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+      margin-top: 0.5rem;
+    }
+    .jump-btn:active {
+      background: linear-gradient(90deg, #2563eb 0%, #38b2ac 100%);
+      box-shadow: 0 1px 4px 0 rgba(49,130,206,0.10);
+    }
+    .tip {
+      margin-top: 1.2rem;
+      color: #718096;
+      font-size: 0.98rem;
+      text-align: center;
+      line-height: 1.6;
+    }
+  </style>
 </head>
-
 <body>
-
+  <div class="container">
+    <h2>跳转到电脑服务</h2>
+    <div class="input-row">
+      <span>192.168.1.</span>
+      <input id="ipEnd" type="number" min="1" max="254" placeholder="15" autofocus />
+    </div>
+    <button class="jump-btn" onclick="jump()">立即访问</button>
+    <div class="tip">请输入你电脑的局域网IP末尾数字（如15），点击访问即可跳转到<br><b>http://192.168.1.x:53318</b></div>
+  </div>
+  <script>
+    function jump() {
+      var end = document.getElementById('ipEnd').value.trim();
+      if (!end || isNaN(end) || +end < 1 || +end > 254) {
+        alert('请输入1-254之间的数字');
+        return;
+      }
+      var url = 'http://192.168.1.' + end + ':53318';
+      window.location.href = url;
+    }
+    document.getElementById('ipEnd').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') jump();
+    });
+  </script>
 </body>
-
 </html>
