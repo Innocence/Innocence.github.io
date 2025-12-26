@@ -20,7 +20,7 @@
             max-width: 96%;
             width: 90%;
             margin: 0 auto;
-            height: 700px;
+            min-height: 700px; /* allow container to expand with content */
             background: white;
             border-radius: 16px;
             padding: 20px;
@@ -38,7 +38,7 @@
         input[type="text"] {
             width: 100%;
             padding: 16px;
-            margin: 36px 0 26px 0;
+            margin: 26px 0 26px 0;
             border: 2px solid rgba(0, 0, 0, 0.1);
             border-radius: 12px;
             font-size: 30px;
@@ -62,17 +62,29 @@
             transition: all 0.2s ease;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+        .small-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.06);
+        }
         
         .barcode-container {
-            margin: 40px 0 24px; /* 上边距从24px增加到30px */
-            padding: 20px;
+            margin: 30px 0 24px; /* 上边距从24px增加到30px */
+            padding: 20px 20px 12px; /* 减小底部内边距 */
             background: rgba(0, 0, 0, 0.02);
             border-radius: 12px;
-            min-height: 290px;
+            min-height: 220px; /* 缩小最小高度，减少空白 */
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start; /* 顶部对齐，避免垂直居中造成上下大量空白 */
+            gap: 8px;
             border: 1px dashed rgba(0, 0, 0, 0.1);
         }
         
@@ -84,6 +96,22 @@
             color: var(--dark);
             word-break: break-all;
             text-align: center;
+        }
+
+        /* Ensure barcode area scales the generated SVG/Canvas and prevents overflow on desktop */
+        #barcode {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* keep layout tidy if a generated SVG is too large */
+        }
+        #barcode svg,
+        #barcode canvas,
+        #barcode img {
+            max-width: 100%;
+            height: auto;
+            display: block;
         }
         
         @media (max-width: 480px) {
@@ -108,11 +136,26 @@
 <body>
     <div class="container">
         <input type="text" id="barcode-data" placeholder="在此处输入物流单号">
+        <select id="format-select" style="width:100%; padding:12px; font-size:18px; border-radius:12px; margin-top:8px; box-sizing: border-box;">
+            <option value="CODE128">CODE128（通用）</option>
+            <option value="EAN13">EAN13（12或13位数字）</option>
+            <option value="EAN8">EAN8（7或8位数字）</option>
+            <option value="UPC">UPC（11或12位数字）</option>
+            <option value="CODE39">CODE39（大写字母与数字）</option>
+            <option value="ITF">ITF（偶数长度数字）</option>
+            <option value="MSI">MSI（数字）</option>
+            <option value="CODABAR">CODABAR</option>
+        </select>
         <button id="generate-btn" class="btn">生成条码</button>
         <button id="clear-btn" class="btn">清除</button>
         <div class="barcode-container">
-            <div id="barcode">条码显示区域</div>
+            <div id="barcode" style="cursor:pointer;" title="点击复制码值与图片">条码显示区域</div>
             <div id="barcode-text" class="barcode-text"></div>
+            <div style="margin:8px 0 4px; display:flex; gap:12px; width:100%; justify-content:center; align-items:center;">
+                <button id="copy-text-btn" class="small-btn">复制码值</button>
+                <button id="copy-image-btn" class="small-btn">复制图片</button>
+            </div>
+            <div id="status" style="margin-top:8px; font-size:14px; color:var(--success);"></div>
         </div>
     </div>
 
@@ -123,12 +166,111 @@
             const clearBtn = document.getElementById('clear-btn');
             const barcodeElement = document.getElementById('barcode');
             const barcodeTextElement = document.getElementById('barcode-text');
+            const formatSelect = document.getElementById('format-select');
+            const copyTextBtn = document.getElementById('copy-text-btn');
+            const copyImageBtn = document.getElementById('copy-image-btn');
+            const statusEl = document.getElementById('status');
+
+            function showStatus(msg, isError = false) {
+                statusEl.textContent = msg;
+                statusEl.style.color = isError ? 'var(--danger)' : 'var(--success)';
+                setTimeout(() => { if (statusEl.textContent === msg) statusEl.textContent = ''; }, 3000);
+            }
+
+            function validateForFormat(text, format) {
+                let v;
+                switch (format) {
+                    case 'EAN13':
+                        v = text.replace(/\s|-/g, '');
+                        if (!/^\d{12,13}$/.test(v)) return { ok: false, msg: 'EAN-13 需要 12 或 13 位数字' };
+                        return { ok: true, value: v };
+                    case 'EAN8':
+                        v = text.replace(/\s|-/g, '');
+                        if (!/^\d{7,8}$/.test(v)) return { ok: false, msg: 'EAN-8 需要 7 或 8 位数字' };
+                        return { ok: true, value: v };
+                    case 'UPC':
+                        v = text.replace(/\s|-/g, '');
+                        if (!/^\d{11,12}$/.test(v)) return { ok: false, msg: 'UPC 需要 11 或 12 位数字' };
+                        return { ok: true, value: v };
+                    case 'CODE39':
+                        v = text.trim().toUpperCase();
+                        if (!/^[0-9A-Z\-\.\ \$\/\+\%]+$/.test(v)) return { ok: false, msg: 'CODE39 只允许大写字母、数字和 - . $ / + % 空格' };
+                        return { ok: true, value: v };
+                    case 'ITF':
+                        v = text.replace(/\s|-/g, '');
+                        if (!/^\d+$/.test(v) || v.length % 2 !== 0) return { ok: false, msg: 'ITF 需要偶数位数字' };
+                        return { ok: true, value: v };
+                    case 'MSI':
+                    case 'CODABAR':
+                        v = text.replace(/\s|-/g, '');
+                        if (!/^[0-9]+$/.test(v)) return { ok: false, msg: format + ' 需要数字' };
+                        return { ok: true, value: v };
+                    default:
+                        return { ok: true, value: text };
+                }
+            }
+
+            async function svgToPngBlob(svg) {
+                const serializer = new XMLSerializer();
+                const svgStr = serializer.serializeToString(svg);
+                const svgBlob = new Blob([svgStr], { type: 'image/svg+xml;charset=utf-8' });
+                const url = URL.createObjectURL(svgBlob);
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = url; });
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width ||  svg.getAttribute('width') || 400;
+                canvas.height = img.height || svg.getAttribute('height') || 200;
+                const ctx = canvas.getContext('2d');
+                // fill background white for better clipboard compatibility
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                URL.revokeObjectURL(url);
+                return await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+            }
+
+            async function copyTextAndImage(value, svg) {
+                try {
+                    await navigator.clipboard.writeText(value);
+                } catch (e) {
+                    showStatus('复制码值失败: ' + e.message, true);
+                    // continue to attempt image copy
+                }
+
+                try {
+                    const blob = await svgToPngBlob(svg);
+                    if (navigator.clipboard && navigator.clipboard.write) {
+                        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+                        showStatus('已复制码值与图片 ✅');
+                    } else {
+                        // fallback: download
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'barcode.png';
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+                        URL.revokeObjectURL(url);
+                        showStatus('图片复制不受支持，已下载图片。');
+                    }
+                } catch (err) {
+                    showStatus('复制图片失败: ' + err.message, true);
+                }
+            }
 
             function generateBarcode() {
-                const text = inputField.value.trim();
-                if (!text) {
-                    barcodeElement.innerHTML = '请输入物流单号生成条码';
+                const raw = inputField.value.trim();
+                const format = formatSelect.value;
+                if (!raw) {
+                    barcodeElement.innerHTML = '请输入要生成的内容';
                     barcodeTextElement.textContent = '';
+                    return;
+                }
+                const valid = validateForFormat(raw, format);
+                if (!valid.ok) {
+                    showStatus(valid.msg, true);
                     return;
                 }
 
@@ -136,16 +278,25 @@
                     barcodeElement.innerHTML = '';
                     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                     barcodeElement.appendChild(svg);
-                    
-                    JsBarcode(svg, text, {
-                        format: 'CODE128',
+
+                    JsBarcode(svg, valid.value, {
+                        format: format,
                         lineColor: '#000',
                         width: 2,
                         height: 100,
-                        displayValue: false
+                        displayValue: format.startsWith('EAN') // 显示数字对 EAN 类更合适
                     });
-                    
-                    barcodeTextElement.textContent = text;
+
+                    barcodeTextElement.textContent = valid.value;
+                    svg.style.cursor = 'pointer';
+                    svg.title = '点击复制码值与图片';
+                    svg.addEventListener('click', function () { copyTextAndImage(valid.value, svg); });
+
+                    // wire up the small copy buttons
+                    copyTextBtn.onclick = function () { navigator.clipboard.writeText(valid.value).then(() => showStatus('已复制码值 ✅')).catch(e => showStatus('复制码值失败: ' + e.message, true)); };
+                    copyImageBtn.onclick = function () { copyTextAndImage(valid.value, svg); };
+
+                    showStatus('条码生成成功');
                 } catch (e) {
                     barcodeElement.innerHTML = '生成条码失败: ' + e.message;
                 }
@@ -155,11 +306,12 @@
                 inputField.value = '';
                 barcodeElement.innerHTML = '条码显示区域';
                 barcodeTextElement.textContent = '';
+                statusEl.textContent = '';
             }
 
             generateBtn.addEventListener('click', generateBarcode);
             clearBtn.addEventListener('click', clearInput);
-            inputField.addEventListener('keypress', function(e) {
+            inputField.addEventListener('keypress', function (e) {
                 if (e.key === 'Enter') generateBarcode();
             });
         });
